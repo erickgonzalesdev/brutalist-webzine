@@ -9,79 +9,99 @@ lib.typ            — main package: palette, fonts, templates, component librar
 typst.toml         — package manifest (name: brutalist-webzine, version: 0.1.0)
 example.typ        — 2-column print demo ("SIGNAL/NOISE #07")
 example-html.typ   — same content wired to webzine-html for HTML export
-demo.typ           — minimal 1-column demo ("VOID DISPATCH #03") — current preferred aesthetic
+demo.typ           — 1-column demo ("VOID DISPATCH #03") — current preferred aesthetic, 16 pages
 demo.pdf           — compiled output of demo.typ
 example.pdf        — compiled output of example.typ
 example.html       — compiled output of example-html.typ
+fonts/             — Space Grotesk variable font (SpaceGrotesk-VariableFont_wght.ttf + static/)
 ```
 
 ## Compile commands
 
 ```sh
-typst compile demo.typ                                                        # PDF
-typst compile --features html --format html example-html.typ example.html    # HTML (experimental)
-typst watch demo.typ                                                          # live preview
+typst compile --font-path fonts demo.typ                                                        # PDF
+typst compile --font-path fonts --features html --format html example-html.typ example.html    # HTML (experimental)
+typst watch --font-path fonts demo.typ                                                          # live preview
 ```
 
-## Design language
+`--font-path fonts` is required to load Space Grotesk from the local `fonts/` directory.
 
-- **Monospace body** (Liberation Mono / FreeMono) + **sans display** (Noto Sans)
-- **Black ink on white paper** — no gratuitous color; accent is optional and defaults to black in demo
-- **Exposed structure**: rules, borders, grids are visible, not hidden
-- **Anti-polish**: negative space and restraint over decoration
-- The minimal 1-column layout (demo.typ) is the preferred direction — strip components rather than add them
+## Design language — current (New Wave / Weingart)
+
+- **Monospace body** (Liberation Mono) + **Space Grotesk display** (weight 300 — light)
+- **Dark mode by default** in demo.typ (`dark: true`, `accent: rgb("#ff2d00")`)
+- **New Wave typography**: font collision (mono body + grotesque display), asymmetric rules, rotated labels, large type as graphic element
+- Masthead: tiny tracked issue/date in accent above 52pt title, asymmetric rule (4pt ink / accent square / 0.5pt ink)
+- H1: `——  article` label in accent above 32pt title, 2:1 split rule below
+- H2: `///` suffix in accent mono
+- **Meander** text-wrap integration for images (`@preview/meander:0.4.3`)
+- **Cover pages**: cover, inside-cover, inside-back-cover, back-cover (placed outside `#show: webzine.with(...)`)
+- **Page images**: full-bleed `page-image(img, caption:, label:)` component
 
 ## lib.typ — key exports
 
 ### Templates
 | Function | Use |
 |---|---|
-| `webzine(title, issue, date, cols, accent, format, margins, body)` | Print/PDF — sets page, footer, columns |
-| `webzine-html(title, issue, date, accent, body)` | HTML — no page config, no footer |
+| `webzine(title, issue, date, cols, accent, format, margins, dark, show-masthead, body)` | Print/PDF — sets page, footer, columns |
+| `webzine-html(title, issue, date, accent, dark, body)` | HTML — no page config, no footer |
 
 `format` options: `"letter"` `"a4"` `"tabloid"` `"half"`
 
-### Components
+### Cover pages (used outside `#show: webzine.with(...)`)
 | Function | Notes |
 |---|---|
-| `section("label")` | Full-width black label bar + rule — use sparingly |
-| `pull-quote(attribution:, body)` | Large bold quote, thick left border |
-| `callout(title:, accent:, body)` | Bordered box; accent param controls color |
-| `manifesto(body)` | Inverted full-width block, all caps |
-| `hero(caption:, body)` | Image frame, 4pt border |
-| `compare(left-label:, right-label:, left, right)` | 2-col grid |
-| `tag(body)` | Inline black chip |
-| `zrule(label:)` | Horizontal rule, optional label |
-| `toc-entry(title, page-num, blurb:)` | TOC row |
-| `sticker(angle:, fill:, body)` | Rotated badge |
-| `byline(name, role:, date:)` | Article byline |
+| `cover(title, issue, date, img, accent, ink, paper)` | Full-bleed front cover, 64pt title bottom-left |
+| `inside-cover(img, body, accent, ink, paper)` | Faces TOC; editorial/credits text top-left |
+| `inside-back-cover(img, body, accent, ink, paper)` | Faces last content page |
+| `back-cover(title, issue, date, tagline, img, accent, ink, paper)` | Full-bleed back, mirrored rule |
 
-### Palette / fonts (accessible after import)
+### Content components
+| Function | Notes |
+|---|---|
+| `section("label")` | Full-width inverted label bar + rule |
+| `pull-quote(attribution:, body)` | `  quote  ` label + 22pt bold, left+top border |
+| `callout(title:, accent:, body)` | 3pt left bar, tracked uppercase label |
+| `manifesto(body)` | Inverted block, `  statement  ` label, 34pt display |
+| `page-image(img, caption:, label:)` | Full-bleed page — place between articles |
+| `wrap-image(img, width:, align:, gap:, caption:, body)` | Meander text-wrap; default width 55% |
+| `compare(left-label:, right-label:, left, right)` | 2-col open grid |
+| `tag(body)` | Inline chip |
+| `zrule(label:)` | Asymmetric horizontal rule (2:1, accent square) |
+| `toc-entry(title, page-num, blurb:)` | Page number left in accent, title right |
+| `sticker(angle:, fill:, body)` | Rotated badge |
+| `byline(name, role:, date:)` | Accent dash leader byline |
+
+### Palette / fonts
 ```typst
 colors.ink / colors.paper / colors.accent / colors.mid
-fonts.body / fonts.display / fonts.alt
-accent          // shorthand for colors.accent
-zine-colors     // alias for colors
-zine-fonts      // alias for fonts
+fonts.body     // Liberation Mono, FreeMono
+fonts.display  // Space Grotesk, Aporetic Sans, Noto Sans, Liberation Sans
+fonts.alt      // same as display
+accent         // shorthand for colors.accent
 ```
+
+## Font weights
+
+Space Grotesk is a variable font (wght axis 300–700). Use **numeric weights** — named weights (`"semibold"`, `"medium"`) do not reliably map in Typst 0.13. Current display weight is `300` (light) throughout lib.typ.
 
 ## Known issues / limitations
 
-- **HTML export is experimental** in Typst 0.13 — layout elements (lines, grids, `#v()`, `#h()`) are silently dropped. Semantic content comes through fine. Use `--features html` flag.
+- **HTML export is experimental** in Typst 0.13 — layout elements (lines, grids, `#v()`, `#h()`) are silently dropped. Semantic content comes through fine.
 - `webzine` uses `set page(...)` so it **cannot** be used inside a container or for HTML export. Use `webzine-html` for that.
-- Font stack: Liberation Mono + FreeMono (body), Noto Sans (display/alt) — these are present on this system. On other systems adjust `fonts` dict in lib.typ or pass fonts as a Typst system font.
 - `cols:` parameter (not `columns:`) — renamed to avoid shadowing Typst's built-in `columns` function.
+- **meander 0.4.3 patch**: `~/.cache/typst/packages/preview/meander/0.4.3/src/bisect.typ` line 6 — `sym.chevron.l` removed in Typst 0.13, patched to `sym.arrow.r`.
+- Components use `context { let ink = text.fill; let paper = page.fill }` to inherit dark/light mode — do not pass colors directly to components.
 
 ## Aesthetic direction notes
 
-The demo.typ iteration landed on:
-- 1 column, wide margins (0.9in), `accent: black`
-- Flat TOC (no blurbs), prose carries structure
-- Use `pull-quote` and `manifesto` for visual breaks — skip stickers/tags/section banners unless the content calls for them
-- Less is more: the blank space is the design
+Current demo.typ (`VOID DISPATCH #03`) is 16 pages:
+- Cover → Inside Cover → TOC + masthead → Full-page image → 4 articles → Letters → Inside Back Cover → Back Cover
+- Each article has a `wrap-image` (55–62% wide, 4–5in tall) and most have a `page-image` separator
+- `dark: true`, `accent: rgb("#ff2d00")`, 1 column, 0.9in margins
 
 Next things to consider:
-- A half-letter (`format: "half"`) version for physical zine printing (fold letter sheet in half)
-- A `newspaper` layout variant with a wider masthead and 3-col body
-- Custom font support via `#set text(font: ...)` after the show rule
+- A half-letter (`format: "half"`) version for physical zine printing
+- A `newspaper` layout variant with wider masthead and 3-col body
 - A CSS stylesheet companion for the HTML output to restore visual fidelity
+- `page-image` with actual photography (currently using gradient rects as placeholders)
