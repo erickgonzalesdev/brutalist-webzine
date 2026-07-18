@@ -1,0 +1,9 @@
+[package]
+name = "brutalist-webzine"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["brutalist-webzine contributors"]
+license = "MIT"
+description = "A brutalist webzine template for print and HTML/static site output"
+keywords = ["webzine", "brutalist", "zine", "layout", "print"]
+categories = ["layout"]
