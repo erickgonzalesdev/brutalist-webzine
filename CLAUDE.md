@@ -71,6 +71,7 @@ typst watch --font-path fonts demo.typ                                          
 | `toc-entry(title, page-num, blurb:)` | Page number left in accent, title right |
 | `sticker(angle:, fill:, body)` | Rotated badge |
 | `byline(name, role:, date:)` | Accent dash leader byline |
+| `article-page(title, author, issue, date, images, layout, title-pos)` | Full-bleed image page; layouts: monocle, hsplit, vsplit, grid, main-left, main-right, main-top, main-bottom, dupe, dupe-triple, dupe-shift, overlay, asymmetric, collision, stagger, drift, corner-pull |
 
 ### Palette / fonts
 ```typst
@@ -92,6 +93,7 @@ Space Grotesk is a variable font (wght axis 300–700). Use **numeric weights** 
 - `cols:` parameter (not `columns:`) — renamed to avoid shadowing Typst's built-in `columns` function.
 - **meander 0.4.3 patch**: `~/.cache/typst/packages/preview/meander/0.4.3/src/bisect.typ` line 6 — `sym.chevron.l` removed in Typst 0.13, patched to `sym.arrow.r`.
 - Components use `context { let ink = text.fill; let paper = page.fill }` to inherit dark/light mode — do not pass colors directly to components.
+- **article-page spacing fix**: `page(margin: 0pt)` blocks require `#set block(spacing: 0pt, above: 0pt, below: 0pt)` and `#set par(spacing: 0pt, leading: 0pt)` at the top of the page body to eliminate implicit gaps between image blocks. Without this, Typst's default paragraph/block spacing creates visible seams between images.
 
 ## Aesthetic direction notes
 
