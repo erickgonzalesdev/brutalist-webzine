@@ -1,5 +1,9 @@
 #import "lib.typ": *
 
+#let png1 = image("47-472115_counter-strike-png-transparent-png.png", width: 100%, fit: "contain")
+#let png2 = image(format: "jpg", "cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAzL3Jhd3BpeGVsX29mZmljZV8yMl9waG90b19vZl93ZWFwb25faXNvbGF0ZWRfb25fY2xlYXJfd2hpdGVfYmFja19mMDYwNTg1Ni0zNGU1LTQ1OWQtYjNkOS1hOWNkMjQ0ZjE1ODBfMS5wbmc.png", width: 100%, fit: "contain")
+#let png3 = image(format: "jpg", "cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL3Jhd3BpeGVsX29mZmljZV8yNF9waG90b19vZl90b3lfYmxhY2tfaGFuZGd1bl9pc29sYXRlZF93aGl0ZV9iYV9hZmQ5MmZhNC1lZTM5LTQyZGItYjM4NC1lM2YzOWU0MTUxNDMucG5n.png", width: 100%, fit: "contain")
+
 #cover(
   title:  "VOID DISPATCH",
   issue:  "03",
@@ -62,7 +66,7 @@
 #byline("DANA FERRIS")
 
 #wrap-image(
-  image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  png2,
   width:   52%,
   align:   top + right,
   gap:     14pt,
@@ -78,7 +82,7 @@ The romantic 24-hour city was organized around _desire_. Someone wanted to be th
 ]
 
 #wrap-image(
-  image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+  png3,
   width:   44%,
   align:   top + left,
   gap:     12pt,
@@ -110,7 +114,7 @@ We built infrastructure for the night and called it nightlife. We built coverage
 #byline("M. OKAFOR")
 
 #wrap-image(
-  image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+  png1,
   width:   48%,
   align:   top + left,
   gap:     13pt,
@@ -120,7 +124,7 @@ We built infrastructure for the night and called it nightlife. We built coverage
 *Method one: go analog for the boring stuff.* Most surveillance is passive and opportunistic. It collects whatever flows through the pipes. A notebook does not have a privacy policy. A pocket calendar does not sync to a data broker. Shopping lists, personal notes, appointments with people you trust — none of these need a network.]
 
 #wrap-image(
-  image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  png3,
   width:   42%,
   align:   top + right,
   gap:     12pt,
@@ -153,7 +157,7 @@ We built infrastructure for the night and called it nightlife. We built coverage
 #byline("T. NAKAMURA")
 
 #wrap-image(
-  image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+  png2,
   width:   55%,
   align:   top + right,
   gap:     14pt,
@@ -171,7 +175,7 @@ This was not a bug. This was a feature that nobody wrote down because nobody tho
 ]
 
 #wrap-image(
-  image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  png1,
   width:   40%,
   align:   top + left,
   gap:     12pt,
@@ -201,7 +205,7 @@ The payphone knew nothing. That was the whole point.]
 #byline("S. REYES")
 
 #wrap-image(
-  image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+  png3,
   width:   50%,
   align:   top + left,
   gap:     13pt,
@@ -211,7 +215,7 @@ The payphone knew nothing. That was the whole point.]
 The reason small blocks win is not aesthetic. It is combinatorial. A grid of small blocks offers exponentially more route choices than a grid of large blocks covering the same area. More route choices means more foot traffic distributed across more paths means more storefronts viable means more activity.]
 
 #wrap-image(
-  image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  png2,
   width:   46%,
   align:   top + right,
   gap:     12pt,
@@ -222,7 +226,7 @@ The reason small blocks win is not aesthetic. It is combinatorial. A grid of sma
 ]
 
 #wrap-image(
-  image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  png1,
   width:   44%,
   align:   top + left,
   gap:     12pt,
@@ -259,7 +263,7 @@ The blocks have to be small first. Everything else follows from the blocks. Jane
 #byline("P. VOSS")
 
 #wrap-image(
-  image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+  png2,
   width:   52%,
   align:   top + right,
   gap:     14pt,
@@ -269,7 +273,7 @@ The blocks have to be small first. Everything else follows from the blocks. Jane
 They work at 2am because the work cannot happen when the city is using itself. The road has to be empty. The water main has to be isolated. The substation has to be de-energized. The shift starts at midnight and ends before anyone notices it happened.]
 
 #wrap-image(
-  image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  png3,
   width:   42%,
   align:   top + left,
   gap:     12pt,
@@ -280,7 +284,7 @@ They work at 2am because the work cannot happen when the city is using itself. T
 ]
 
 #wrap-image(
-  image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+  png1,
   width:   48%,
   align:   top + right,
   gap:     12pt,
@@ -306,7 +310,7 @@ They work at 2am because the work cannot happen when the city is using itself. T
 #byline("P. VOSS")
 
 #wrap-image(
-  image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  png3,
   width:   48%,
   align:   top + left,
   gap:     13pt,
@@ -316,7 +320,7 @@ They work at 2am because the work cannot happen when the city is using itself. T
 The signal layer is where the city becomes legible to itself. Without it, the buses are just buses. With it, the buses are a dataset. The streets are a dataset. The pedestrians are a dataset. The city reads itself continuously and the reading changes what it does.]
 
 #wrap-image(
-  image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+  png2,
   width:   44%,
   align:   top + right,
   gap:     12pt,
@@ -327,7 +331,7 @@ The signal layer is where the city becomes legible to itself. Without it, the bu
 ]
 
 #wrap-image(
-  image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  png1,
   width:   42%,
   align:   top + left,
   gap:     12pt,
