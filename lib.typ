@@ -896,14 +896,17 @@
 ///   title-pos [str]  - "bottom-left" (default) | "top-left" | "bottom-right" | "center"
 ///   ink       [color] - override ink color
 #let article-page(
-  title:     "",
-  author:    none,
-  issue:     none,
-  date:      none,
-  images:    (),
-  layout:    "monocle",
-  title-pos: "bottom-left",
-  ink:       auto,
+  title:        "",
+  author:       none,
+  issue:        none,
+  date:         none,
+  images:       (),
+  layout:       "monocle",
+  title-pos:    "bottom-left",
+  master-count: 1,
+  gap:          0pt,
+  stack:        none,
+  ink:          auto,
 ) = context {
   let resolved-ink   = if ink == auto { text.fill } else { ink }
   let resolved-paper = page.fill
@@ -924,84 +927,194 @@
   page(margin: 0pt, fill: resolved-paper)[
     #set block(spacing: 0pt, above: 0pt, below: 0pt)
     #set par(spacing: 0pt, leading: 0pt)
+
+    #let _img(i) = block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
+    #let _blank() = block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, fill: resolved-paper)[]
+    #let _hstack(idxs, h) = {
+      let rn = idxs.len()
+      if rn == 0 { block(width: 100%, height: h, spacing: 0pt, fill: resolved-paper)[] }
+      else if rn == 1 {
+        block(width: 100%, height: h, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(idxs.at(0)))]
+      } else {
+        block(width: 100%, height: h, spacing: 0pt, inset: 0pt)[
+          #grid(columns: range(rn).map(_ => 1fr), rows: (100%,), gutter: gap,
+            ..idxs.map(i => block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))])
+          )
+        ]
+      }
+    }
+    #let _vstack(idxs, w) = {
+      let rn = idxs.len()
+      if rn == 0 { block(width: w, height: 100%, spacing: 0pt, fill: resolved-paper)[] }
+      else if rn == 1 {
+        block(width: w, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(idxs.at(0)))]
+      } else {
+        block(width: w, height: 100%, spacing: 0pt, inset: 0pt)[
+          #grid(columns: (100%,), rows: range(rn).map(_ => 1fr), gutter: gap,
+            ..idxs.map(i => block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))])
+          )
+        ]
+      }
+    }
+
     #if layout == "monocle" {
       if n > 0 { _cell(0) }
 
-    } else if layout == "hsplit" {
+    } else if layout == "h-split" or layout == "hsplit" {
       if n == 0 {
       } else if n == 1 {
         _cell(0)
       } else {
-        let h = 100% / n
-        for i in range(n) {
-          block(width: 100%, height: h, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
-        }
+        grid(columns: (100%,), rows: range(n).map(_ => 1fr), gutter: gap,
+          ..range(n).map(i =>
+            block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
+          )
+        )
       }
 
-    } else if layout == "vsplit" {
+    } else if layout == "v-split" or layout == "vsplit" {
       if n == 0 {
       } else if n == 1 {
         _cell(0)
       } else {
-        let cols = range(n).map(_ => 1fr)
-        grid(columns: cols, gutter: 0pt, ..range(n).map(i =>
+        grid(columns: range(n).map(_ => 1fr), rows: (100%,), gutter: gap, ..range(n).map(i =>
           block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
         ))
+      }
+
+    } else if layout == "h-stack" or layout == "main-top" {
+      let master-idxs = if n > 0 { (0,) } else { () }
+      let stack-idxs  = if n > 1 { range(1, n) } else { () }
+      grid(columns: (100%,), rows: (if stack-idxs.len() > 0 { 3fr } else { 1fr }, if stack-idxs.len() > 0 { 2fr } else { 0pt }), gutter: gap,
+        _hstack(master-idxs, 100%),
+        if stack-idxs.len() > 0 { _hstack(stack-idxs, 100%) } else { [] },
+      )
+
+    } else if layout == "h-stack-inv" or layout == "main-bottom" {
+      let master-idxs = if n > 0 { (0,) } else { () }
+      let stack-idxs  = if n > 1 { range(1, n) } else { () }
+      grid(columns: (100%,), rows: (if stack-idxs.len() > 0 { 2fr } else { 0pt }, if stack-idxs.len() > 0 { 3fr } else { 1fr }), gutter: gap,
+        if stack-idxs.len() > 0 { _hstack(stack-idxs, 100%) } else { [] },
+        _hstack(master-idxs, 100%),
+      )
+
+    } else if layout == "v-stack" or layout == "main-left" {
+      let master-idxs = if n > 0 { (0,) } else { () }
+      let stack-idxs  = if n > 1 { range(1, n) } else { () }
+      grid(columns: (if stack-idxs.len() > 0 { 3fr } else { 1fr }, if stack-idxs.len() > 0 { 2fr } else { 0pt }), rows: (100%,), gutter: gap,
+        if master-idxs.len() == 0 { _blank() } else { _img(0) },
+        if stack-idxs.len() > 0 { _vstack(stack-idxs, 100%) } else { [] },
+      )
+
+    } else if layout == "v-stack-inv" or layout == "main-right" {
+      let master-idxs = if n > 0 { (0,) } else { () }
+      let stack-idxs  = if n > 1 { range(1, n) } else { () }
+      grid(columns: (if stack-idxs.len() > 0 { 2fr } else { 0pt }, if stack-idxs.len() > 0 { 3fr } else { 1fr }), rows: (100%,), gutter: gap,
+        if stack-idxs.len() > 0 { _vstack(stack-idxs, 100%) } else { [] },
+        if master-idxs.len() == 0 { _blank() } else { _img(0) },
+      )
+
+    } else if layout == "nh-stack" {
+      let mc = calc.max(1, master-count)
+      let master-idxs = range(calc.min(mc, n))
+      let stack-idxs  = if n > mc { range(mc, n) } else { () }
+      if stack-idxs.len() == 0 {
+        _hstack(master-idxs, 100%)
+      } else {
+        grid(columns: (100%,), rows: (3fr, 2fr), gutter: gap,
+          _hstack(master-idxs, 100%),
+          _hstack(stack-idxs, 100%),
+        )
+      }
+
+    } else if layout == "nv-stack" {
+      let mc = calc.max(1, master-count)
+      let master-idxs = range(calc.min(mc, n))
+      let stack-idxs  = if n > mc { range(mc, n) } else { () }
+      if stack-idxs.len() == 0 {
+        _vstack(master-idxs, 100%)
+      } else {
+        grid(columns: (3fr, 2fr), rows: (100%,), gutter: gap,
+          _vstack(master-idxs, 100%),
+          _vstack(stack-idxs, 100%),
+        )
+      }
+
+    } else if layout == "mirror-h" {
+      let mc = calc.max(1, master-count)
+      let top-idxs    = if n > 1 { (1,) } else { () }
+      let master-idxs = if n > 0 { (0,) } else { () }
+      let bot-idxs    = if n > 2 { range(2, n) } else { () }
+      let has-top = top-idxs.len() > 0
+      let has-bot = bot-idxs.len() > 0
+      let rows = (
+        if has-top  { (2fr,) } else { () } +
+        (3fr,) +
+        if has-bot  { (2fr,) } else { () }
+      )
+      let cells = (
+        if has-top  { (_hstack(top-idxs, 100%),) }    else { () } +
+        (_hstack(master-idxs, 100%),) +
+        if has-bot  { (_hstack(bot-idxs, 100%),) }    else { () }
+      )
+      grid(columns: (100%,), rows: rows, gutter: gap, ..cells)
+
+    } else if layout == "mirror-v" {
+      let left-idxs   = if n > 1 { (1,) } else { () }
+      let master-idxs = if n > 0 { (0,) } else { () }
+      let right-idxs  = if n > 2 { range(2, n) } else { () }
+      let has-left  = left-idxs.len() > 0
+      let has-right = right-idxs.len() > 0
+      let cols = (
+        if has-left  { (2fr,) } else { () } +
+        (3fr,) +
+        if has-right { (2fr,) } else { () }
+      )
+      let cells = (
+        if has-left  { (_vstack(left-idxs, 100%),) }   else { () } +
+        (_vstack(master-idxs, 100%),) +
+        if has-right { (_vstack(right-idxs, 100%),) }  else { () }
+      )
+      grid(columns: cols, rows: (100%,), gutter: gap, ..cells)
+
+    } else if layout == "columns" {
+      let widths = if n <= 1 { (1fr,) }
+                   else if n == 2 { (38%, 62%) }
+                   else if n == 3 { (18%, 62%, 20%) }
+                   else { (14%, 52%, 20%, 14%) }
+      let actual = calc.min(n, widths.len())
+      grid(columns: widths.slice(0, actual), rows: (100%,), gutter: gap,
+        ..range(actual).map(i =>
+          block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
+        )
+      )
+
+    } else if layout == "rows" {
+      if n == 0 {
+      } else {
+        let heights = if n == 1 { (1fr,) }
+                      else if n == 2 { (62%, 38%) }
+                      else if n == 3 { (50%, 30%, 20%) }
+                      else { (40%, 25%, 20%, 15%) }
+        let actual = calc.min(n, heights.len())
+        grid(columns: (100%,), rows: heights.slice(0, actual), gutter: gap,
+          ..range(actual).map(i =>
+            block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
+          )
+        )
       }
 
     } else if layout == "grid" {
       if n == 0 {
       } else if n == 1 {
         _cell(0)
-      } else if n == 2 {
-        grid(columns: (1fr, 1fr), gutter: 0pt)[
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(1))]
-        ]
-      } else if n == 3 {
-        grid(columns: (1fr, 1fr), rows: (1fr, 1fr), gutter: 0pt)[
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(1))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(2))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true,
-            fill: resolved-paper)[]
-        ]
-      } else if n == 4 {
-        grid(columns: (1fr, 1fr), rows: (1fr, 1fr), gutter: 0pt)[
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(1))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(2))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(3))]
-        ]
-      } else if n == 5 {
-        grid(columns: (1fr, 1fr, 1fr), rows: (1fr, 1fr), gutter: 0pt)[
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(1))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(2))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(3))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(4))]
-        ][
-          #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true,
-            fill: resolved-paper)[]
-        ]
       } else {
-        let cols = 3
+        let cols = if n <= 2 { 2 } else if n <= 4 { 2 } else if n <= 6 { 3 } else { 4 }
         let rows = calc.ceil(n / cols)
         grid(
           columns: range(cols).map(_ => 1fr),
           rows:    range(rows).map(_ => 1fr),
-          gutter:  0pt,
+          gutter:  gap,
           ..range(cols * rows).map(i => {
             if i < n {
               block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
@@ -1012,75 +1125,50 @@
         )
       }
 
-    } else if layout == "main-left" {
-      let rest = range(1, n)
-      grid(columns: (60%, 40%), gutter: 0pt)[
-        #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
-      ][
-        #if rest.len() == 0 {
-          block(width: 100%, height: 100%, fill: resolved-paper)[]
-        } else {
-          let rn = rest.len()
-          let rh = 100% / rn
-          grid(columns: (1fr,), rows: range(rn).map(_ => rh), gutter: 0pt,
-            ..rest.map(i =>
-              block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
-            )
-          )
+    } else if layout == "fibonacci" {
+      let slots = {
+        let result = ()
+        let x = 0%
+        let y = 0%
+        let w = 100%
+        let h = 100%
+        let total = calc.min(n, 8)
+        for k in range(total) {
+          let ratio = if k == total - 1 { 1.0 } else { 0.618 }
+          let d = calc.rem(k, 4)
+          if d == 0 {
+            let mw = w * ratio
+            result.push((x: x, y: y, w: mw, h: h))
+            x = x + mw
+            w = w - mw
+          } else if d == 1 {
+            let mh = h * ratio
+            result.push((x: x, y: y, w: w, h: mh))
+            y = y + mh
+            h = h - mh
+          } else if d == 2 {
+            let mw = w * ratio
+            result.push((x: x + w - mw, y: y, w: mw, h: h))
+            w = w - mw
+          } else {
+            let mh = h * ratio
+            result.push((x: x, y: y + h - mh, w: w, h: mh))
+            h = h - mh
+          }
         }
-      ]
-
-    } else if layout == "main-right" {
-      let rest = range(1, n)
-      grid(columns: (40%, 60%), gutter: 0pt)[
-        #if rest.len() == 0 {
-          block(width: 100%, height: 100%, fill: resolved-paper)[]
-        } else {
-          let rn = rest.len()
-          let rh = 100% / rn
-          grid(columns: (1fr,), rows: range(rn).map(_ => rh), gutter: 0pt,
-            ..rest.map(i =>
-              block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
-            )
-          )
-        }
-      ][
-        #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
-      ]
-
-    } else if layout == "main-top" {
-      let rest = range(1, n)
-      block(width: 100%, height: 60%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
-      if rest.len() == 0 {
-        block(width: 100%, height: 40%, fill: resolved-paper, spacing: 0pt)[]
-      } else {
-        let rn = rest.len()
-        let rw = 100% / rn
-        grid(columns: range(rn).map(_ => rw), gutter: 0pt,
-          ..rest.map(i =>
-            block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
-          )
+        result
+      }
+      let hg = gap / 2
+      for i in range(slots.len()) {
+        let s = slots.at(i)
+        place(top + left, dx: s.x + hg, dy: s.y + hg,
+          block(width: s.w - gap, height: s.h - gap, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
         )
       }
-
-    } else if layout == "main-bottom" {
-      let rest = range(1, n)
-      if rest.len() == 0 {
-        block(width: 100%, height: 40%, fill: resolved-paper, spacing: 0pt)[]
-      } else {
-        let rn = rest.len()
-        let rw = 100% / rn
-        grid(columns: range(rn).map(_ => rw), gutter: 0pt,
-          ..rest.map(i =>
-            block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
-          )
-        )
-      }
-      block(width: 100%, height: 60%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
 
     } else if layout == "dupe" {
       let b = if n >= 2 { images.at(1) } else { images.at(0) }
-      grid(columns: (1fr, 1fr), gutter: 0pt)[
+      grid(columns: (1fr, 1fr), rows: (100%,), gutter: gap)[
         #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
       ][
         #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[
@@ -1092,7 +1180,7 @@
       let a = images.at(0)
       let b = if n >= 2 { images.at(1) } else { a }
       let c = if n >= 3 { images.at(2) } else { a }
-      grid(columns: (1fr, 1fr, 1fr), gutter: 0pt)[
+      grid(columns: (1fr, 1fr, 1fr), rows: (100%,), gutter: gap)[
         #block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[
           #place(top + left, scale(x: -100%, a))
         ]
@@ -1107,10 +1195,10 @@
     } else if layout == "dupe-shift" {
       let shift = 20%
       let b = if n >= 2 { images.at(1) } else { images.at(0) }
-      block(width: 50%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
+      block(width: 50% - gap / 2, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(0))]
       place(top + right,
         dy: -(100% * shift),
-        block(width: 50%, height: 100% + (100% * shift), spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, b)]
+        block(width: 50% - gap / 2, height: 100% + (100% * shift), spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, b)]
       )
 
     } else if layout == "overlay" {
@@ -1133,7 +1221,7 @@
                    else if n == 3 { (18%, 62%, 20%) }
                    else { (14%, 52%, 20%, 14%) }
       let actual = calc.min(n, widths.len())
-      grid(columns: widths.slice(0, actual), gutter: 0pt,
+      grid(columns: widths.slice(0, actual), rows: (100%,), gutter: gap,
         ..range(actual).map(i =>
           block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
         )
@@ -1241,6 +1329,26 @@
     #place(top + left, dx: 22pt, dy: 14pt,
       line(length: 28pt, stroke: 1pt + colors.mid)
     )
+
+    #if stack != none {
+      let simgs   = stack.at("images",  default: ())
+      let sanchor = stack.at("anchor",  default: bottom + right)
+      let sw      = stack.at("width",   default: 38%)
+      let sh      = stack.at("height",  default: 32%)
+      let soff    = stack.at("offset",  default: 14pt)
+      let sn      = simgs.len()
+      for k in range(sn) {
+        let idx = sn - 1 - k
+        let shift = soff * idx
+        let adx = if sanchor == top + left or sanchor == bottom + left { shift } else { -shift }
+        let ady = if sanchor == top + left or sanchor == top + right   { shift } else { -shift }
+        place(sanchor, dx: adx, dy: ady,
+          block(width: sw, height: sh, spacing: 0pt, inset: 0pt, clip: true)[
+            #place(top + left, simgs.at(idx))
+          ]
+        )
+      }
+    }
   ]
 }
 

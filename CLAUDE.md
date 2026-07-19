@@ -71,7 +71,13 @@ typst watch --font-path fonts demo.typ                                          
 | `toc-entry(title, page-num, blurb:)` | Page number left in accent, title right |
 | `sticker(angle:, fill:, body)` | Rotated badge |
 | `byline(name, role:, date:)` | Accent dash leader byline |
-| `article-page(title, author, issue, date, images, layout, title-pos)` | Full-bleed image page; layouts: monocle, hsplit, vsplit, grid, main-left, main-right, main-top, main-bottom, dupe, dupe-triple, dupe-shift, overlay, asymmetric, collision, stagger, drift, corner-pull |
+| `article-page(title, author, issue, date, images, layout, title-pos, master-count, gap, stack)` | Full-bleed image page. |
+| | **`gap`** `[length]` — gutter between tiles (default `0pt`) |
+| | **`master-count`** `[int]` — number of master windows for nh-stack/nv-stack/mirror-* |
+| | **`stack`** `[dict]` — floating image stack composited on top of the tiling layer: `(images: (), anchor: bottom+right, width: 38%, height: 32%, offset: 14pt)`. `anchor` sets which corner; `offset` is the cascade step between frames. Composable with any layout. |
+| | **Tiling WM-style layouts**: `monocle`, `h-split`, `v-split`, `h-stack`, `h-stack-inv`, `v-stack`, `v-stack-inv`, `nh-stack`, `nv-stack`, `mirror-h`, `mirror-v`, `columns`, `rows`, `grid`, `fibonacci` |
+| | **Creative/editorial layouts**: `dupe`, `dupe-triple`, `dupe-shift`, `overlay`, `asymmetric`, `collision`, `stagger`, `drift`, `corner-pull` |
+| | **Legacy aliases**: `hsplit`=`h-split`, `vsplit`=`v-split`, `main-left`=`v-stack`, `main-right`=`v-stack-inv`, `main-top`=`h-stack`, `main-bottom`=`h-stack-inv` |
 
 ### Palette / fonts
 ```typst

@@ -4,17 +4,17 @@
   title:  "VOID DISPATCH",
   issue:  "03",
   date:   "AUTUMN 2025",
-  img:    rect(width: 100%, height: 100%, fill: gradient.linear(rgb("#0d0000"), black, angle: 160deg)),
-  accent: rgb("#ff2d00"),
+  img:    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  accent: white,
 )
 
 #inside-cover(
-  img:  rect(width: 100%, height: 100%, fill: gradient.linear(black, rgb("#100500"), angle: 30deg)),
+  img:  image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
   body: [
     *Void Dispatch* is a zine about cities, infrastructure, and the systems we live inside.
     Free to read. Free to print. Free to leave somewhere.
 
-    Contributing writers: Dana Ferris, M. Okafor,\ T. Nakamura, S. Reyes.
+    Contributing writers: Dana Ferris, M. Okafor,\ T. Nakamura, S. Reyes, P. Voss.
 
     Printed on whatever you have.\
     void-dispatch #sym.at proton.me
@@ -26,7 +26,7 @@
   issue:   "03",
   date:    "AUTUMN 2025",
   cols:          1,
-  accent:        rgb("#ff2d00"),
+  accent:        white,
   format:        "letter",
   margins:       0.9in,
   dark:          true,
@@ -37,13 +37,24 @@
 #toc-entry("THREE WAYS TO DISAPPEAR", 2)
 #toc-entry("THE LAST PAYPHONE", 3)
 #toc-entry("SMALL GRID THEORY", 4)
+#toc-entry("THE MAINTENANCE WORKERS", 5)
+#toc-entry("THE SIGNAL LAYER", 6)
 
 #zrule()
 
-#page-image(
-  rect(width: 100%, height: 100%, fill: gradient.linear(black, rgb("#1a0a00"), angle: 135deg)),
-  caption: "void dispatch — the city at 3am",
-  label:   "issue 03",
+// ── ARTICLE 1 ─────────────────────────────────────────────────────────────────
+#article-page(
+  title:  "Cities That Never Sleep",
+  author: "Dana Ferris",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "main-left",
 )
 
 = CITIES THAT NEVER SLEEP
@@ -60,20 +71,28 @@ The romantic 24-hour city was organized around _desire_. Someone wanted to be th
   The lights are always on here. That used to mean something.
 ]
 
-#wrap-image(
-  rect(width: 100%, height: 4.8in, fill: black),
-  width:   58%,
-  align:   top + right,
-  caption: "fulfillment center, 3:14am",
-)[
-  This is the distinction that city planners, when they invoke "vibrancy," consistently fail to make. Vibrancy is not a property of illuminated windows. It is a property of people choosing to be somewhere.
+This is the distinction that city planners, when they invoke "vibrancy," consistently fail to make. Vibrancy is not a property of illuminated windows. It is a property of people choosing to be somewhere.
 
-  We built infrastructure for the night and called it nightlife. We built coverage for every hour and called it community. We lit every corner and called it safety. None of these substitutions are neutral.
-]
+We built infrastructure for the night and called it nightlife. We built coverage for every hour and called it community. We lit every corner and called it safety. None of these substitutions are neutral.
 
 #manifesto[
   A city that cannot sleep is not awake. It is running a process.
 ]
+
+// ── ARTICLE 2 ─────────────────────────────────────────────────────────────────
+#article-page(
+  title:  "Three Ways To Disappear",
+  author: "M. Okafor",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "dupe-shift",
+)
 
 = THREE WAYS TO DISAPPEAR
 
@@ -81,27 +100,30 @@ The romantic 24-hour city was organized around _desire_. Someone wanted to be th
 
 This is not a paranoia piece. This is a practice piece. Paranoia assumes a specific adversary. Practice assumes a general condition and responds proportionally.
 
-#wrap-image(
-  rect(width: 100%, height: 4.2in, fill: rgb("#0a0a0a")),
-  width:   60%,
-  align:   top + left,
-  caption: "the notebook, the calendar, the pen",
-)[
-  *Method one: go analog for the boring stuff.* Most surveillance is passive and opportunistic. It collects whatever flows through the pipes. A notebook does not have a privacy policy. A pocket calendar does not sync to a data broker. Shopping lists, personal notes, appointments with people you trust — none of these need a network.
+*Method one: go analog for the boring stuff.* Most surveillance is passive and opportunistic. It collects whatever flows through the pipes. A notebook does not have a privacy policy. A pocket calendar does not sync to a data broker. Shopping lists, personal notes, appointments with people you trust — none of these need a network.
 
-  *Method two: reduce identity surface area.* You have more accounts than you need. Some are attached to your real name, phone number, a payment method, a device fingerprint. The reduction is not deactivation. It is to stop creating new ones. Every new account is a new exposure surface.
+*Method two: reduce identity surface area.* You have more accounts than you need. Some are attached to your real name, phone number, a payment method, a device fingerprint. The reduction is not deactivation. It is to stop creating new ones. Every new account is a new exposure surface.
 
-  *Method three: make boring choices visible.* Notice when you are making a choice. Not every choice requires a different decision. But many defaults were set by someone whose interests are not yours. Default on: location sharing, analytics, cross-app tracking, personalized ads. Reversing these — not in every case, just deliberately — changes what flows through the pipes.
-]
+*Method three: make boring choices visible.* Notice when you are making a choice. Not every choice requires a different decision. But many defaults were set by someone whose interests are not yours. Default on: location sharing, analytics, cross-app tracking, personalized ads. Reversing these — not in every case, just deliberately — changes what flows through the pipes.
 
 #callout(title: "the actual threat model")[
   You are probably not being targeted specifically. You are in a database being queried by systems with no opinion about you as a person. The goal is not to escape the database. The goal is to make the query less useful.
 ]
 
-#page-image(
-  rect(width: 100%, height: 100%, fill: gradient.linear(rgb("#0a0a0a"), rgb("#1a0500"), angle: 45deg)),
-  caption: "the analog stack",
-  label:   "three ways to disappear",
+// ── ARTICLE 3 ─────────────────────────────────────────────────────────────────
+#article-page(
+  title:     "The Last Payphone",
+  author:    "T. Nakamura",
+  issue:     "03",
+  date:      "Autumn 2025",
+  images: (
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout:    "hsplit",
+  title-pos: "bottom-right",
 )
 
 = THE LAST PAYPHONE
@@ -110,18 +132,11 @@ This is not a paranoia piece. This is a practice piece. Paranoia assumes a speci
 
 _A photo essay without photos, because we lost the memory card._
 
-#wrap-image(
-  rect(width: 100%, height: 5in, fill: rgb("#080808")),
-  width:   55%,
-  align:   top + right,
-  caption: "linknyc kiosk, delancey st",
-)[
-  The payphone on Delancey and Essex was removed in 2019. There is a LinkNYC kiosk there now. The kiosk offers free calls, fast Wi-Fi, and a screen that displays advertisements. It also collects device identifiers from passing phones.
+The payphone on Delancey and Essex was removed in 2019. There is a LinkNYC kiosk there now. The kiosk offers free calls, fast Wi-Fi, and a screen that displays advertisements. It also collects device identifiers from passing phones.
 
-  The payphone offered free emergency calls and required a quarter for everything else. It collected nothing. It remembered nothing. When you hung up, the conversation was over.
+The payphone offered free emergency calls and required a quarter for everything else. It collected nothing. It remembered nothing. When you hung up, the conversation was over.
 
-  This was not a bug. This was a feature that nobody wrote down because nobody thought it would need to be defended.
-]
+This was not a bug. This was a feature that nobody wrote down because nobody thought it would need to be defended.
 
 #pull-quote(attribution: "a person who remembered the quarter")[
   You could call anyone and they couldn't call you back unless they already knew where you were.
@@ -133,26 +148,28 @@ The kiosk is faster. The kiosk is free. The kiosk is always available. The kiosk
 
 The payphone knew nothing. That was the whole point.
 
-#page-image(
-  rect(width: 100%, height: 100%, fill: gradient.linear(rgb("#0d0d0d"), rgb("#00050a"), angle: 200deg)),
-  caption: "delancey and essex, 2019",
-  label:   "the last payphone",
+// ── ARTICLE 4 ─────────────────────────────────────────────────────────────────
+#article-page(
+  title:  "Small Grid Theory",
+  author: "S. Reyes",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "corner-pull",
 )
 
 = SMALL GRID THEORY
 
 #byline("S. REYES")
 
-#wrap-image(
-  rect(width: 100%, height: 4.5in, fill: rgb("#050505")),
-  width:   62%,
-  align:   top + left,
-  caption: "small block grid, manhattan below 14th",
-)[
-  The most livable neighborhoods in most cities share one physical characteristic that urban planners consistently undervalue: *small blocks*. Not "walkable" in the sense of having sidewalks. Not "mixed-use" in the sense of having a Starbucks on the ground floor of a condo tower. Small blocks. Short distances between intersections. Many choices per square mile.
+The most livable neighborhoods in most cities share one physical characteristic that urban planners consistently undervalue: *small blocks*. Not "walkable" in the sense of having sidewalks. Not "mixed-use" in the sense of having a Starbucks on the ground floor of a condo tower. Small blocks. Short distances between intersections. Many choices per square mile.
 
-  The reason small blocks win is not aesthetic. It is combinatorial. A grid of small blocks offers exponentially more route choices than a grid of large blocks covering the same area. More route choices means more foot traffic distributed across more paths means more storefronts viable means more activity.
-]
+The reason small blocks win is not aesthetic. It is combinatorial. A grid of small blocks offers exponentially more route choices than a grid of large blocks covering the same area. More route choices means more foot traffic distributed across more paths means more storefronts viable means more activity.
 
 Large blocks produce dead zones. Not because they are ugly — though they often are — but because a single failed anchor tenant takes an entire frontage offline. On a small block, one failed storefront is one failed storefront. On a superblock, it is four hundred feet of blank wall.
 
@@ -163,6 +180,193 @@ Large blocks produce dead zones. Not because they are ugly — though they often
 You cannot retrofit walkability onto a large-block grid by adding mixed-use zoning. You can add a coffee shop on the ground floor of a 700-foot-frontage building and it will feel like a coffee shop in an airport. Because it is.
 
 The blocks have to be small first. Everything else follows from the blocks. Jane Jacobs said this in 1961. We have spent sixty years building the opposite.
+
+// ── ARTICLE 5 ─────────────────────────────────────────────────────────────────
+#article-page(
+  title:     "The Maintenance Workers",
+  author:    "P. Voss",
+  issue:     "03",
+  date:      "Autumn 2025",
+  images: (
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout:    "v-stack",
+  title-pos: "bottom-right",
+  stack: (
+    images: (
+      image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+      image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    ),
+    anchor: bottom + left,
+    width:  36%,
+    height: 28%,
+    offset: 12pt,
+  ),
+)
+
+= THE MAINTENANCE WORKERS
+
+#byline("P. VOSS")
+
+Every city has two kinds of workers. The ones you see and the ones who make it possible for you to see them. The street-level economy — cafés, shops, deliveries — depends on a substrate that is mostly invisible: the people who fix the pipes, patch the road, swap the transformer, re-hang the signal.
+
+They work at 2am because the work cannot happen when the city is using itself. The road has to be empty. The water main has to be isolated. The substation has to be de-energized. The shift starts at midnight and ends before anyone notices it happened.
+
+This is by design. The ideal maintenance event is one that nobody knows occurred. The pipe doesn't burst, so there's no story. The signal doesn't fail, so there's no backup. The transformer holds, so the hospital stays on.
+
+#callout(title: "invisibility as success metric")[
+  The KPI for infrastructure maintenance is the absence of events. Nothing happened. That is the goal. That is how you know it worked.
+]
+
+We have built an economy around visibility — metrics, dashboards, likes, impressions. And then we have built the physical world on top of people whose best outcome is that you never think about them at all.
+
+// ── ARTICLE 6 ─────────────────────────────────────────────────────────────────
+#article-page(
+  title:  "The Signal Layer",
+  author: "P. Voss",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "dupe-triple",
+)
+
+= THE SIGNAL LAYER
+
+#byline("P. VOSS")
+
+Every city runs on a layer you cannot see. Not the pipes, not the wires — those are findable, mappable, orange-flagged before you dig. The signal layer is different. It is the mesh of transmissions that tells the traffic light what the car did three blocks away, that tells the transit authority the bus is running four minutes late, that tells the logistics platform the driver has paused.
+
+The signal layer is where the city becomes legible to itself. Without it, the buses are just buses. With it, the buses are a dataset. The streets are a dataset. The pedestrians are a dataset. The city reads itself continuously and the reading changes what it does.
+
+Most people do not know the signal layer exists. They know the wifi. They know the cell signal. They do not know the mesh, the LIDAR, the Bluetooth sniffers embedded in lamp posts, the license plate readers every four blocks, the acoustic monitors that can tell a gunshot from a car backfire with ninety-three percent accuracy.
+
+#callout(title: "what the signal layer knows")[
+  Where you were. How fast you moved. What device you carried. Whether you stopped. For how long. Whether you stopped at that spot before.
+]
+
+The signal layer does not forget. The buses forget. The people forget. The signal layer keeps a log.
+
+// ── LAYOUT SHOWCASE ───────────────────────────────────────────────────────────
+#article-page(
+  title:  "Grid",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "grid",
+  gap:    0pt,
+)
+
+#article-page(
+  title:  "Fibonacci",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "fibonacci",
+  gap:    0pt,
+)
+
+#article-page(
+  title:  "H-Split",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "h-split",
+  gap:    0pt,
+)
+
+#article-page(
+  title:  "V-Split",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "v-split",
+  gap:    0pt,
+)
+
+#article-page(
+  title:     "NH-Stack",
+  issue:     "03",
+  date:      "Autumn 2025",
+  images: (
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout:       "nh-stack",
+  master-count: 2,
+  gap:          0pt,
+  title-pos:    "bottom-right",
+)
+
+#article-page(
+  title:     "NV-Stack",
+  issue:     "03",
+  date:      "Autumn 2025",
+  images: (
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout:       "nv-stack",
+  master-count: 2,
+  gap:          0pt,
+)
+
+#article-page(
+  title:  "Mirror-H",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout: "mirror-h",
+  gap:    0pt,
+)
+
+#article-page(
+  title:  "Mirror-V",
+  issue:  "03",
+  date:   "Autumn 2025",
+  images: (
+    image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image1.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
+    image("image4.jpg", width: 100%, height: 100%, fit: "cover"),
+  ),
+  layout:    "mirror-v",
+  gap:       0pt,
+  title-pos: "bottom-right",
+)
 
 #zrule(label: "letters")
 
@@ -192,7 +396,7 @@ The blocks have to be small first. Everything else follows from the blocks. Jane
 ]
 
 #inside-back-cover(
-  img:  rect(width: 100%, height: 100%, fill: gradient.linear(black, rgb("#00050d"), angle: 220deg)),
+  img:  image("image2.jpg", width: 100%, height: 100%, fit: "cover"),
   body: [
     *Next issue:* infrastructure that fights back.
     Submissions open. 800 words or fewer.
@@ -207,6 +411,6 @@ The blocks have to be small first. Everything else follows from the blocks. Jane
   issue:   "03",
   date:    "AUTUMN 2025",
   tagline: "free — print it — leave it somewhere",
-  img:     rect(width: 100%, height: 100%, fill: gradient.linear(rgb("#0a0000"), black, angle: 340deg)),
-  accent:  rgb("#ff2d00"),
+  img:     image("image3.jpg", width: 100%, height: 100%, fit: "cover"),
+  accent:  white,
 )
