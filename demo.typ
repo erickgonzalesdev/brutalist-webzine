@@ -6,56 +6,64 @@
 #let png2 = image(format: "jpg", "cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAzL3Jhd3BpeGVsX29mZmljZV8yMl9waG90b19vZl93ZWFwb25faXNvbGF0ZWRfb25fY2xlYXJfd2hpdGVfYmFja19mMDYwNTg1Ni0zNGU1LTQ1OWQtYjNkOS1hOWNkMjQ0ZjE1ODBfMS5wbmc.png", width: 100%, fit: "contain")
 #let png3 = image(format: "jpg", "cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL3Jhd3BpeGVsX29mZmljZV8yNF9waG90b19vZl90b3lfYmxhY2tfaGFuZGd1bl9pc29sYXRlZF93aGl0ZV9iYV9hZmQ5MmZhNC1lZTM5LTQyZGItYjM4NC1lM2YzOWU0MTUxNDMucG5n.png", width: 100%, fit: "contain")
 
-// Silhouette contours for each PNG obstacle
-// (x, y) in [0,1]×[0,1], top-left origin; true = obstacle (opaque pixel region)
-#let contour-soldiers = meander.contour.grid(
-  div: 32,
-  (x, y) => {
-    // Gun barrel: thin diagonal from top-left to top-right
-    let barrel = y < 0.26 and y > (0.05 + x * 0.14) and x > 0.12
-    // Standing figure (right): fills right 65%, full height, tapers at very top
-    let standing = x > 0.33 and (y > 0.08 or x < 0.82)
-    // Crouching figure (left): fills left 75%, lower 65%
-    let crouching = x < 0.78 and y > 0.35
-    // Clear top-left triangle where there's nothing
-    let clear-tl = x < 0.33 and y < 0.35 and not barrel
-    (barrel or standing or crouching) and not clear-tl
-  }
+// Silhouette contours as ASCII art. '#' = obstacle, ' ' = text can flow here.
+// Each string is a top-down grid map of the image's opaque regions.
+#let contour-soldiers = meander.contour.ascii-art(
+  // ~15 cols × 20 rows; left figure crouches lower-left, right stands full-height right
+  ```
+       /####
+      /######
+     /########
+    /#########
+   /##########
+   /##########
+   /##########
+   /##########
+  /###########
+  /###########
+  ############
+  ############
+  ############
+  ############
+  ############
+  ############
+  ############
+  ############
+  ############
+  ############
+  ```
 )
 
-#let contour-rifle = meander.contour.grid(
-  div: 32,
-  (x, y) => {
-    // Rifle diagonal: bottom-left to top-right
-    // Centre line approx y = 0.95 - x*0.90
-    let centre = 0.95 - x * 0.90
-    let width  = 0.18 + x * 0.06
-    let in-body = calc.abs(y - centre) < width
-    // Magazine box: lower-left of centre
-    let mag = x > 0.08 and x < 0.38 and y > 0.55 and y < 0.88
-    // Stock: right portion, lower area
-    let stock = x > 0.70 and y > 0.42 and y < 0.72
-    // Clear true corners
-    let clear-tl = x < 0.06 and y < 0.20
-    let clear-br = x > 0.94 and y > 0.80
-    (in-body or mag or stock) and not clear-tl and not clear-br
-  }
+#let contour-rifle = meander.contour.ascii-art(
+  // Diagonal rifle: bottom-left to top-right
+  ```
+         ####
+        #####\
+       ######\
+      ######\
+     #######\
+    ########\
+   #########\
+  #########\
+ ##########\
+###########\
+  ```
 )
 
-#let contour-handgun = meander.contour.grid(
-  div: 32,
-  (x, y) => {
-    // Slide + barrel: horizontal band across most of image
-    let slide  = y > 0.08 and y < 0.58 and x > 0.04 and x < 0.88
-    // Grip: lower-right block
-    let grip   = x > 0.46 and x < 0.84 and y > 0.42 and y < 0.96
-    // Clear empty corners
-    let clear-tl = x < 0.10 and y < 0.18
-    let clear-bl = x < 0.30 and y > 0.70
-    let clear-tr = x > 0.86 and y < 0.25
-    let clear-br = x > 0.86 and y > 0.80
-    (slide or grip) and not clear-tl and not clear-bl and not clear-tr and not clear-br
-  }
+#let contour-handgun = meander.contour.ascii-art(
+  // Wide landscape: barrel left, grip lower-right
+  ```
+  ##########  
+  ##########  
+  ##########  
+  ##########  
+  ##########  
+  ##########  
+     #######  
+     #######  
+     #######  
+     #######  
+  ```
 )
 
 #cover(
