@@ -588,10 +588,11 @@
 ///   body    [content] - the flowing text that wraps around the image
 #let wrap-image(
   img,
-  width:   55%,
-  align:   top + left,
-  gap:     12pt,
-  caption: none,
+  width:    55%,
+  align:    top + left,
+  gap:      12pt,
+  caption:  none,
+  boundary: none,
   body,
 ) = context {
   let ink   = text.fill
@@ -609,9 +610,13 @@
   ]
 
   meander.reflow({
-    import meander: placed, container, opt
+    import meander: placed, container, opt, contour
     opt.placement.spacing(below: 0pt)
-    placed(align, box(width: width, img-block))
+    if boundary != none {
+      placed(align, boundary: boundary, box(width: width, img-block))
+    } else {
+      placed(align, box(width: width, img-block))
+    }
     container(
       width: 100% - width - gap,
       align: if align.x == left { right } else { left },

@@ -1,8 +1,48 @@
 #import "lib.typ": *
 
+#import "@preview/meander:0.4.3"
+
 #let png1 = image("47-472115_counter-strike-png-transparent-png.png", width: 100%, fit: "contain")
 #let png2 = image(format: "jpg", "cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAzL3Jhd3BpeGVsX29mZmljZV8yMl9waG90b19vZl93ZWFwb25faXNvbGF0ZWRfb25fY2xlYXJfd2hpdGVfYmFja19mMDYwNTg1Ni0zNGU1LTQ1OWQtYjNkOS1hOWNkMjQ0ZjE1ODBfMS5wbmc.png", width: 100%, fit: "contain")
 #let png3 = image(format: "jpg", "cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL3Jhd3BpeGVsX29mZmljZV8yNF9waG90b19vZl90b3lfYmxhY2tfaGFuZGd1bl9pc29sYXRlZF93aGl0ZV9iYV9hZmQ5MmZhNC1lZTM5LTQyZGItYjM4NC1lM2YzOWU0MTUxNDMucG5n.png", width: 100%, fit: "contain")
+
+// Silhouette contours for each PNG obstacle
+// (x, y) in [0,1]×[0,1], top-left origin; return true = obstacle present
+#let contour-soldiers = meander.contour.grid(
+  div: 30,
+  (x, y) => {
+    // Two figures: left crouching (x<0.6), right standing (x>0.35)
+    // Both present in lower 80%; right figure reaches full height
+    let in-left  = x < 0.62 and y > (0.28 + x * 0.30)
+    let in-right = x > 0.32 and y > (x * 0.18 - 0.05)
+    (in-left or in-right) and not (x < 0.10 and y < 0.55)
+  }
+)
+
+#let contour-rifle = meander.contour.grid(
+  div: 30,
+  (x, y) => {
+    // Rifle runs diagonally bottom-left to top-right
+    // Centre line: y = 1 - x; band ±0.22 wide
+    let centre = 1.0 - x
+    let dist   = calc.abs(y - centre)
+    dist < 0.22 and not (x < 0.08 and y > 0.85) and not (x > 0.92 and y < 0.15)
+  }
+)
+
+#let contour-handgun = meander.contour.grid(
+  div: 30,
+  (x, y) => {
+    // Barrel: left ~60% of width, upper ~45% of height
+    let in-barrel = x < 0.72 and y < 0.52
+    // Grip: right ~45% of width, lower ~65% of height
+    let in-grip   = x > 0.42 and y > 0.28
+    // Exclude top-right and bottom-left corners (empty space)
+    let not-tr    = not (x > 0.80 and y < 0.22)
+    let not-bl    = not (x < 0.28 and y > 0.72)
+    (in-barrel or in-grip) and not-tr and not-bl
+  }
+)
 
 #cover(
   title:  "VOID DISPATCH",
@@ -67,6 +107,7 @@
 
 #wrap-image(
   png2,
+  boundary: contour-rifle,
   width:   52%,
   align:   top + right,
   gap:     14pt,
@@ -83,6 +124,7 @@ The romantic 24-hour city was organized around _desire_. Someone wanted to be th
 
 #wrap-image(
   png3,
+  boundary: contour-handgun,
   width:   44%,
   align:   top + left,
   gap:     12pt,
@@ -115,6 +157,7 @@ We built infrastructure for the night and called it nightlife. We built coverage
 
 #wrap-image(
   png1,
+  boundary: contour-soldiers,
   width:   48%,
   align:   top + left,
   gap:     13pt,
@@ -125,6 +168,7 @@ We built infrastructure for the night and called it nightlife. We built coverage
 
 #wrap-image(
   png3,
+  boundary: contour-handgun,
   width:   42%,
   align:   top + right,
   gap:     12pt,
@@ -158,6 +202,7 @@ We built infrastructure for the night and called it nightlife. We built coverage
 
 #wrap-image(
   png2,
+  boundary: contour-rifle,
   width:   55%,
   align:   top + right,
   gap:     14pt,
@@ -176,6 +221,7 @@ This was not a bug. This was a feature that nobody wrote down because nobody tho
 
 #wrap-image(
   png1,
+  boundary: contour-soldiers,
   width:   40%,
   align:   top + left,
   gap:     12pt,
@@ -206,6 +252,7 @@ The payphone knew nothing. That was the whole point.]
 
 #wrap-image(
   png3,
+  boundary: contour-handgun,
   width:   50%,
   align:   top + left,
   gap:     13pt,
@@ -216,6 +263,7 @@ The reason small blocks win is not aesthetic. It is combinatorial. A grid of sma
 
 #wrap-image(
   png2,
+  boundary: contour-rifle,
   width:   46%,
   align:   top + right,
   gap:     12pt,
@@ -227,6 +275,7 @@ The reason small blocks win is not aesthetic. It is combinatorial. A grid of sma
 
 #wrap-image(
   png1,
+  boundary: contour-soldiers,
   width:   44%,
   align:   top + left,
   gap:     12pt,
@@ -264,6 +313,7 @@ The blocks have to be small first. Everything else follows from the blocks. Jane
 
 #wrap-image(
   png2,
+  boundary: contour-rifle,
   width:   52%,
   align:   top + right,
   gap:     14pt,
@@ -274,6 +324,7 @@ They work at 2am because the work cannot happen when the city is using itself. T
 
 #wrap-image(
   png3,
+  boundary: contour-handgun,
   width:   42%,
   align:   top + left,
   gap:     12pt,
@@ -285,6 +336,7 @@ They work at 2am because the work cannot happen when the city is using itself. T
 
 #wrap-image(
   png1,
+  boundary: contour-soldiers,
   width:   48%,
   align:   top + right,
   gap:     12pt,
@@ -311,6 +363,7 @@ They work at 2am because the work cannot happen when the city is using itself. T
 
 #wrap-image(
   png3,
+  boundary: contour-handgun,
   width:   48%,
   align:   top + left,
   gap:     13pt,
@@ -321,6 +374,7 @@ The signal layer is where the city becomes legible to itself. Without it, the bu
 
 #wrap-image(
   png2,
+  boundary: contour-rifle,
   width:   44%,
   align:   top + right,
   gap:     12pt,
@@ -332,6 +386,7 @@ The signal layer is where the city becomes legible to itself. Without it, the bu
 
 #wrap-image(
   png1,
+  boundary: contour-soldiers,
   width:   42%,
   align:   top + left,
   gap:     12pt,
