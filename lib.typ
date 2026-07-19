@@ -614,13 +614,14 @@
     opt.placement.spacing(below: 0pt)
     if boundary != none {
       placed(align, boundary: boundary, box(width: width, img-block))
+      container(width: 100%)
     } else {
       placed(align, box(width: width, img-block))
+      container(
+        width: 100% - width - gap,
+        align: if align.x == left { right } else { left },
+      )
     }
-    container(
-      width: 100% - width - gap,
-      align: if align.x == left { right } else { left },
-    )
     meander.content(body)
   })
 }
