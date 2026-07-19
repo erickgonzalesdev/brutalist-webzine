@@ -22,7 +22,6 @@
 #let fonts = (
   body:    ("Liberation Mono", "FreeMono"),
   display: ("Space Grotesk", "Aporetic Sans", "Noto Sans", "Liberation Sans"),
-  alt:     ("Space Grotesk", "Aporetic Sans", "Noto Sans", "Liberation Sans"),
 )
 
 // ─── PAGE PRESETS ────────────────────────────────────────────────────────────
@@ -686,6 +685,32 @@
   ]
 }
 
+#let _inner-cover(img, body, ink, paper, label, label-anchor) = {
+  page(margin: 0pt, fill: paper)[
+    #if img != none {
+      block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#img]
+    }
+    #if body != none {
+      place(top + left,
+        dx: 22pt,
+        dy: 22pt,
+        block(width: 60%, inset: 0pt)[
+          #set text(font: fonts.body, size: 8pt, fill: ink)
+          #set par(leading: 0.7em, spacing: 1em)
+          #body
+        ]
+      )
+    }
+    #place(label-anchor,
+      dx: if label-anchor == bottom + right { -22pt } else { 22pt },
+      dy: -22pt,
+      block(inset: 0pt)[
+        #text(font: fonts.body, size: 6.5pt, fill: colors.mid, tracking: 1.5pt, upper(label))
+      ]
+    )
+  ]
+}
+
 /// Inside cover — faces the TOC. Full bleed, minimal text.
 /// Parameters:
 ///   img     [content] - full-bleed background (optional)
@@ -699,37 +724,7 @@
   accent: rgb("#ff2d00"),
   ink:    white,
   paper:  black,
-) = {
-  page(margin: 0pt, fill: paper)[
-    #if img != none {
-      block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#img]
-    }
-    #if body != none {
-      place(top + left,
-        dx: 22pt,
-        dy: 22pt,
-        block(width: 60%, inset: 0pt)[
-          #set text(font: fonts.body, size: 8pt, fill: ink)
-          #set par(leading: 0.7em, spacing: 1em)
-          #body
-        ]
-      )
-    }
-    #place(bottom + right,
-      dx: -22pt,
-      dy: -22pt,
-      block(inset: 0pt)[
-        #text(
-          font:     fonts.body,
-          size:     6.5pt,
-          fill:     colors.mid,
-          tracking: 1.5pt,
-          upper("inside cover"),
-        )
-      ]
-    )
-  ]
-}
+) = _inner-cover(img, body, ink, paper, "inside cover", bottom + right)
 
 /// Inside back cover — faces the last content page.
 /// Parameters: same as inside-cover
@@ -739,37 +734,7 @@
   accent: rgb("#ff2d00"),
   ink:    white,
   paper:  black,
-) = {
-  page(margin: 0pt, fill: paper)[
-    #if img != none {
-      block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#img]
-    }
-    #if body != none {
-      place(top + left,
-        dx: 22pt,
-        dy: 22pt,
-        block(width: 60%, inset: 0pt)[
-          #set text(font: fonts.body, size: 8pt, fill: ink)
-          #set par(leading: 0.7em, spacing: 1em)
-          #body
-        ]
-      )
-    }
-    #place(bottom + left,
-      dx: 22pt,
-      dy: -22pt,
-      block(inset: 0pt)[
-        #text(
-          font:     fonts.body,
-          size:     6.5pt,
-          fill:     colors.mid,
-          tracking: 1.5pt,
-          upper("inside back cover"),
-        )
-      ]
-    )
-  ]
-}
+) = _inner-cover(img, body, ink, paper, "inside back cover", bottom + left)
 
 /// Back cover — final page. Typographic, no masthead.
 /// Parameters:
@@ -856,45 +821,48 @@
 /// Article title card — full-bleed page preceding each article.
 ///
 /// Images are passed as an array and tiled dynamically based on `layout`,
-/// exactly like a tiling window manager: pick a layout, add images, they fill
-/// the available space automatically. Adding more images subdivides the layout.
+/// like a tiling window manager. Adding more images subdivides the layout.
 ///
 /// Parameters:
-///   title     [str]    - article title (large display type)
-///   author    [str]    - byline
-///   issue     [str]    - issue label (small, top-left metadata line)
-///   date      [str]    - date (small, top-left metadata line)
-///   images    [array]  - list of image content blocks (1–N)
-///   layout    [str]    - tiling mode:
+///   title        [str]    - article title (large display type)
+///   author       [str]    - byline
+///   issue        [str]    - issue label (small metadata line)
+///   date         [str]    - date (small metadata line)
+///   images       [array]  - list of image content blocks (1–N)
+///   layout       [str]    - tiling mode:
 ///
-///     GRID LAYOUTS — images fill cells, extra images subdivide
-///     "monocle"     1 image full-bleed (ignores extras)
-///     "hsplit"      N equal horizontal bands (stack top→bottom)
-///     "vsplit"      N equal vertical columns (side by side)
-///     "grid"        auto square-ish grid: 1→1, 2→1×2, 3→2+1, 4→2×2,
-///                   5→2+3, 6→2×3, 7→3+4 …
+///     TILING LAYOUTS
+///     "monocle"       1 image full-bleed
+///     "h-split"       N equal horizontal bands
+///     "v-split"       N equal vertical columns
+///     "h-stack"       master top 60%, rest tile bottom row (alias: "main-top")
+///     "h-stack-inv"   master bottom 60%, rest tile top row (alias: "main-bottom")
+///     "v-stack"       master left 60%, rest stack right column (alias: "main-left")
+///     "v-stack-inv"   master right 60%, rest stack left column (alias: "main-right")
+///     "nh-stack"      master-count images top, rest tile bottom row
+///     "nv-stack"      master-count images left, rest stack right column
+///     "mirror-h"      secondary | master | secondary (horizontal bands)
+///     "mirror-v"      secondary | master | secondary (vertical columns)
+///     "columns"       asymmetric vertical columns (widths vary by image count)
+///     "rows"          asymmetric horizontal rows (heights vary by image count)
+///     "grid"          auto square-ish grid
+///     "fibonacci"     golden ratio spiral subdivision (up to 8 images)
 ///
-///     MAIN + STACK — first image is the "master", rest tile the secondary zone
-///     "main-left"   master takes left 60%, rest stack right column vertically
-///     "main-right"  master takes right 60%, rest stack left column vertically
-///     "main-top"    master takes top 60%, rest tile bottom row horizontally
-///     "main-bottom" master takes bottom 60%, rest tile top row horizontally
+///     CREATIVE / EDITORIAL
+///     "dupe"          image[0] + mirror (or image[1]) side by side
+///     "dupe-triple"   mirror / original / mirror
+///     "dupe-shift"    two panels, right nudged up; paper strip at bottom-right
+///     "overlay"       image[0] full-bleed; image[1..] float as insets
+///     "collision"     image[0] and image[1] collide at off-center vertical seam
+///     "stagger"       images in a staircase offset (shifts right + down)
+///     "drift"         images float freely, no grid, imbalanced weight
+///     "corner-pull"   image[0] full-bleed; image[1..] pinned to corners
 ///
-///     MIRROR LAYOUTS — images are reflected/repeated
-///     "dupe"        image[0] + mirror of image[0] (or image[1] if present)
-///     "dupe-triple" mirror / original / mirror; adds image[1..2] if present
-///     "dupe-shift"  two panels, right one nudged up; paper strip at bottom-right
-///
-///     FREEFORM / EDITORIAL
-///     "overlay"     image[0] full-bleed; image[1..] float as insets (right→left)
-///     "asymmetric"  like vsplit but columns are 18/62/20 — center dominates
-///     "collision"   image[0] and image[1] collide at off-center vertical seam
-///     "stagger"     images in a staircase offset (each shifts right + down)
-///     "drift"       images float freely, no grid, imbalanced weight
-///     "corner-pull" image[0] full-bleed; image[1] pinned to bottom-right corner
-///
-///   title-pos [str]  - "bottom-left" (default) | "top-left" | "bottom-right" | "center"
-///   ink       [color] - override ink color
+///   master-count [int]   - images in master zone for nh-stack/nv-stack/mirror-* (default 1)
+///   gap          [length] - gutter between tiles (default 0pt)
+///   stack        [dict]  - floating image stack overlay: (images, anchor, width, height, offset)
+///   title-pos    [str]   - "bottom-left" (default) | "top-left" | "bottom-right" | "center"
+///   ink          [color] - override ink color
 #let article-page(
   title:        "",
   author:       none,
@@ -911,18 +879,6 @@
   let resolved-ink   = if ink == auto { text.fill } else { ink }
   let resolved-paper = page.fill
   let n = images.len()
-
-  let _cell(i) = place(top + left, dx: 0pt, dy: 0pt,
-    block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[
-      #place(top + left, images.at(i))
-    ]
-  )
-  let _mirror(i) = place(top + left, dx: 0pt, dy: 0pt,
-    block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[
-      #place(top + left, scale(x: -100%, images.at(i)))
-    ]
-  )
-  let _get(i) = images.at(calc.min(i, n - 1))
 
   page(margin: 0pt, fill: resolved-paper)[
     #set block(spacing: 0pt, above: 0pt, below: 0pt)
@@ -958,12 +914,12 @@
     }
 
     #if layout == "monocle" {
-      if n > 0 { _cell(0) }
+      if n > 0 { place(top + left, _img(0)) }
 
     } else if layout == "h-split" or layout == "hsplit" {
       if n == 0 {
       } else if n == 1 {
-        _cell(0)
+        place(top + left, _img(0))
       } else {
         grid(columns: (100%,), rows: range(n).map(_ => 1fr), gutter: gap,
           ..range(n).map(i =>
@@ -975,7 +931,7 @@
     } else if layout == "v-split" or layout == "vsplit" {
       if n == 0 {
       } else if n == 1 {
-        _cell(0)
+        place(top + left, _img(0))
       } else {
         grid(columns: range(n).map(_ => 1fr), rows: (100%,), gutter: gap, ..range(n).map(i =>
           block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
@@ -1107,7 +1063,7 @@
     } else if layout == "grid" {
       if n == 0 {
       } else if n == 1 {
-        _cell(0)
+        place(top + left, _img(0))
       } else {
         let cols = if n <= 2 { 2 } else if n <= 4 { 2 } else if n <= 6 { 3 } else { 4 }
         let rows = calc.ceil(n / cols)
@@ -1202,7 +1158,7 @@
       )
 
     } else if layout == "overlay" {
-      if n > 0 { _cell(0) }
+      if n > 0 { place(top + left, _img(0)) }
       let overlay-positions = (
         (anchor: top + right,  dx: -18pt, dy: 18%,  w: 42%),
         (anchor: bottom + left, dx: 18pt, dy: -24%, w: 34%),
@@ -1214,18 +1170,6 @@
           block(width: p.w, spacing: 0pt, inset: 0pt, clip: true)[#box(width: 100%, height: 100%)[#images.at(i)]]
         )
       }
-
-    } else if layout == "asymmetric" {
-      let widths = if n <= 1 { (1fr,) }
-                   else if n == 2 { (38%, 62%) }
-                   else if n == 3 { (18%, 62%, 20%) }
-                   else { (14%, 52%, 20%, 14%) }
-      let actual = calc.min(n, widths.len())
-      grid(columns: widths.slice(0, actual), rows: (100%,), gutter: gap,
-        ..range(actual).map(i =>
-          block(width: 100%, height: 100%, spacing: 0pt, inset: 0pt, clip: true)[#place(top + left, images.at(i))]
-        )
-      )
 
     } else if layout == "collision" {
       let seam = 40%
@@ -1267,7 +1211,7 @@
       }
 
     } else if layout == "corner-pull" {
-      if n > 0 { _cell(0) }
+      if n > 0 { place(top + left, _img(0)) }
       let corner-slots = (
         (anchor: bottom + right, dx: 0pt,  dy: 0pt,  w: 38%, h: 32%),
         (anchor: top + left,    dx: 0pt,  dy: 0pt,  w: 32%, h: 38%),
