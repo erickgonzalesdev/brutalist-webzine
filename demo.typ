@@ -2,78 +2,95 @@
 
 #import "@preview/meander:0.4.3"
 
-#let png1 = image("47-472115_counter-strike-png-transparent-png.png", width: 100%, fit: "contain")
-#let png2 = image(format: "jpg", "cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAzL3Jhd3BpeGVsX29mZmljZV8yMl9waG90b19vZl93ZWFwb25faXNvbGF0ZWRfb25fY2xlYXJfd2hpdGVfYmFja19mMDYwNTg1Ni0zNGU1LTQ1OWQtYjNkOS1hOWNkMjQ0ZjE1ODBfMS5wbmc.png", width: 100%, fit: "contain")
-#let png3 = image(format: "jpg", "cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL3Jhd3BpeGVsX29mZmljZV8yNF9waG90b19vZl90b3lfYmxhY2tfaGFuZGd1bl9pc29sYXRlZF93aGl0ZV9iYV9hZmQ5MmZhNC1lZTM5LTQyZGItYjM4NC1lM2YzOWU0MTUxNDMucG5n.png", width: 100%, fit: "contain")
+#let png1 = image("soldiers.png", width: 100%, fit: "contain")
+#let png2 = image("rifle.png",    width: 100%, fit: "contain")
+#let png3 = image("handgun.png",  width: 100%, fit: "contain")
 
-// Silhouette contours generated from actual pixel data via gen_contour.py
+// Silhouette contours generated from actual pixel data via process_images.py
 #let contour-soldiers = meander.contour.ascii-art(
   ```
-                    
-                    
-          ##        
-          ####      
-      ####### #     
-        ##  ###     
-        #######     
-        ########    
-        ### ####    
-        ### ####    
-        ########    
-      ## #######    
-       #########    
-       ###### #     
-       ###### #     
-       ########     
-      ###### ##     
-     ####### # #    
-    ######## # #    
-                    
+                        
+                        
+            ##          
+            ###         
+            ### #       
+        ####### ##      
+          #    ###      
+          ########      
+          #########     
+          ### #####     
+          ###  ####     
+         ##### #####    
+         ###########    
+       ##  #########    
+       ###########      
+         ###### ####    
+         ######  #      
+        ######## #      
+        ##########      
+       ###########      
+       ########## #     
+      ########### #     
+      ########  # #     
+                        
   ```
 )
 
 #let contour-rifle = meander.contour.ascii-art(
   ```
-                    
-                    
-  #  #              
-   ##               
-    ###             
-    ####            
-     ####           
-      #### #        
-        ### #       
-       #######      
-      ########      
-    ####  ####      
-   ####  #####      
-    #    ##   #     
-         ##  ###    
-         #    ####  
-              ####  
-               ##   
-                    
-                    
+                        
+                        
+  #                     
+   # ##                 
+    ###                 
+     ###                
+     ####               
+      ####              
+       ####             
+        ##### #         
+         ##### #        
+        #########       
+       #########        
+      #### #####        
+    #####   #####       
+    ###    #### ##      
+     #     ##   ###     
+           ##   ####    
+          ##    #####   
+                 #####  
+                  ###   
+                  #     
+                        
+                        
   ```
 )
 
 #let contour-handgun = meander.contour.ascii-art(
   ```
-                    
- ################   
- #################  
- #################  
-   ################ 
-       #  # ######  
-            #####   
-            #####   
-             #####  
-             #####  
-             #####  
-              ##### 
-              ##### 
-             ###### 
-                    
+                        
+                        
+ ################### #  
+ #####################  
+ ####################   
+ ####################   
+ #####################  
+    ################### 
+         #############  
+         #    #######   
+               ######   
+         # #  #######   
+           ##########   
+               ######   
+                ######  
+                ######  
+                ######  
+                ######  
+                ######  
+                ######  
+                ####### 
+                ####### 
+                 ###### 
+                        
   ```
 )
 
