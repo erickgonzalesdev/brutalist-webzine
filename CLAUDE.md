@@ -29,14 +29,15 @@ typst watch --font-path fonts demo.typ                                          
 ## Design language — current (New Wave / Weingart)
 
 - **Monospace body** (Liberation Mono) + **Space Grotesk display** (weight 300 — light)
-- **Dark mode by default** in demo.typ (`dark: true`, `accent: rgb("#ff2d00")`)
+- **Dark mode by default** in demo.typ (`dark: true`, `accent: white`)
 - **New Wave typography**: font collision (mono body + grotesque display), asymmetric rules, rotated labels, large type as graphic element
 - Masthead: tiny tracked issue/date in accent above 52pt title, asymmetric rule (4pt ink / accent square / 0.5pt ink)
 - H1: `——  article` label in accent above 32pt title, 2:1 split rule below
 - H2: `///` suffix in accent mono
-- **Meander** text-wrap integration for images (`@preview/meander:0.4.3`)
+- **Meander** text-wrap integration for images (`@preview/meander:0.4.3`) — available via `wrap-image()` in lib.typ
 - **Cover pages**: cover, inside-cover, inside-back-cover, back-cover (placed outside `#show: webzine.with(...)`)
 - **Page images**: full-bleed `page-image(img, caption:, label:)` component
+- **PNG images**: soldiers.png, rifle.png, handgun.png — background-removed, cropped tight to content
 
 ## lib.typ — key exports
 
@@ -84,7 +85,6 @@ typst watch --font-path fonts demo.typ                                          
 colors.ink / colors.paper / colors.accent / colors.mid
 fonts.body     // Liberation Mono, FreeMono
 fonts.display  // Space Grotesk, Aporetic Sans, Noto Sans, Liberation Sans
-fonts.alt      // same as display
 accent         // shorthand for colors.accent
 ```
 
@@ -104,9 +104,10 @@ Space Grotesk is a variable font (wght axis 300–700). Use **numeric weights** 
 ## Aesthetic direction notes
 
 Current demo.typ (`VOID DISPATCH #03`) is 16 pages:
-- Cover → Inside Cover → TOC + masthead → Full-page image → 4 articles → Letters → Inside Back Cover → Back Cover
-- Each article has a `wrap-image` (55–62% wide, 4–5in tall) and most have a `page-image` separator
-- `dark: true`, `accent: rgb("#ff2d00")`, 1 column, 0.9in margins
+- Cover → Inside Cover → TOC + masthead → Full-page image → 6 articles → Letters → Inside Back Cover → Back Cover
+- Each article has a centered PNG image (32em tall) at the top, then body text below
+- `dark: true`, `accent: white`, 1 column, 0.9in margins
+- PNG images (soldiers.png, rifle.png, handgun.png) are placed via `#align(center)[#png1]` directly in demo.typ
 
 Next things to consider:
 - A half-letter (`format: "half"`) version for physical zine printing
