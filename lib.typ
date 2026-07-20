@@ -613,17 +613,11 @@
     import meander: placed, container, opt, contour
     opt.placement.spacing(below: 0pt)
     if boundary != none {
-      placed(align, boundary: boundary, box(width: width, img-block))
-      container(
-        width: 100% - width - gap,
-        align: if align.x == left { right } else { left },
-        margin: 0pt,
+      placed(align,
+        boundary: meander.contour.margin(gap) + boundary,
+        box(width: width, img-block),
       )
-      container(
-        width: width,
-        align: if align.x == left { left } else { right },
-        margin: 0pt,
-      )
+      container(width: 100%, margin: 0pt)
     } else {
       placed(align, box(width: width, img-block))
       container(
