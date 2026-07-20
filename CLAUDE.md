@@ -11,6 +11,9 @@ example.typ        — 2-column print demo ("SIGNAL/NOISE #07")
 example-html.typ   — same content wired to webzine-html for HTML export
 demo.typ           — 1-column demo ("VOID DISPATCH #03") — current preferred aesthetic, 16 pages
 demo.pdf           — compiled output of demo.typ
+demo-html.typ      — HTML version of demo.typ using html.elem() class wrappers
+demo.html          — compiled output of demo-html.typ
+demo.css           — dark brutalist stylesheet for demo.html
 example.pdf        — compiled output of example.typ
 example.html       — compiled output of example-html.typ
 fonts/             — Space Grotesk variable font (SpaceGrotesk-VariableFont_wght.ttf + static/)
@@ -20,7 +23,8 @@ fonts/             — Space Grotesk variable font (SpaceGrotesk-VariableFont_wg
 
 ```sh
 typst compile --font-path fonts demo.typ                                                        # PDF
-typst compile --font-path fonts --features html --format html example-html.typ example.html    # HTML (experimental)
+typst compile --font-path fonts --features html --format html demo-html.typ demo.html          # HTML (demo)
+typst compile --font-path fonts --features html --format html example-html.typ example.html    # HTML (example)
 typst watch --font-path fonts demo.typ                                                          # live preview
 ```
 
@@ -112,5 +116,4 @@ Current demo.typ (`VOID DISPATCH #03`) is 16 pages:
 Next things to consider:
 - A half-letter (`format: "half"`) version for physical zine printing
 - A `newspaper` layout variant with wider masthead and 3-col body
-- A CSS stylesheet companion for the HTML output to restore visual fidelity
 - `page-image` with actual photography (currently using gradient rects as placeholders)

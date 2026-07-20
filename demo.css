@@ -1,0 +1,233 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: #000;
+  color: #fff;
+  font-family: "Liberation Mono", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.75rem 4rem;
+}
+
+/* ── MASTHEAD ─────────────────────────────────────── */
+.masthead {
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+}
+.masthead-issue {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.masthead-title {
+  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
+  font-size: 3.5rem;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.masthead-rule {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 6px;
+  margin-bottom: 0.5rem;
+}
+.masthead-rule-thick { flex: 2; height: 4px; background: #fff; }
+.masthead-rule-dot   { width: 6px; height: 6px; background: #fff; margin: 0 2px; }
+.masthead-rule-thin  { flex: 1; height: 1px; background: #fff; }
+
+/* ── TOC ──────────────────────────────────────────── */
+.toc { margin-bottom: 2rem; }
+.toc-entry {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.2rem 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.toc-entry-num  { color: #fff; font-weight: bold; min-width: 2em; }
+.toc-entry-fill { flex: 1; border-bottom: 1px dotted rgba(255,255,255,0.15); margin: 0 0.5rem; height: 1em; }
+.toc-entry-title { flex: none; }
+
+/* ── ARTICLE ──────────────────────────────────────── */
+article {
+  margin: 3rem 0 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+.article-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.article-label::before { content: "——  "; }
+article h1 {
+  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
+  font-size: 2.4rem;
+  font-weight: 300;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+.article-rule {
+  display: flex;
+  height: 1px;
+  margin: 0.8rem 0 1.2rem;
+}
+.article-rule-a { flex: 2; background: #fff; }
+.article-rule-b { flex: 1; background: rgba(255,255,255,0.2); }
+
+/* ── BYLINE ───────────────────────────────────────── */
+.byline {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.byline::before { content: "—— "; color: #fff; }
+
+/* ── IMAGE ────────────────────────────────────────── */
+.article-image {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+.article-image img {
+  max-height: 28em;
+  max-width: 100%;
+  object-fit: contain;
+}
+.article-image figcaption {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+.article-image figcaption::before { content: '"/ '; }
+
+/* ── BODY TEXT ────────────────────────────────────── */
+p {
+  margin-bottom: 1em;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* ── PULL-QUOTE ───────────────────────────────────── */
+.pull-quote {
+  border-left: 2px solid #fff;
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  margin: 2rem 0;
+}
+.pull-quote blockquote {
+  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+}
+.pull-quote cite {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  font-style: normal;
+}
+.pull-quote cite::before { content: "—— "; color: #fff; }
+
+/* ── CALLOUT ──────────────────────────────────────── */
+.callout {
+  border-left: 3px solid #fff;
+  padding-left: 1.1rem;
+  margin: 2rem 0;
+}
+.callout-title {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 0.5rem;
+}
+.callout-body p { margin-bottom: 0.5em; }
+
+/* ── MANIFESTO ────────────────────────────────────── */
+.manifesto {
+  background: #fff;
+  color: #000;
+  padding: 2rem 2.5rem;
+  margin: 2.5rem 0;
+  text-align: center;
+  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 300;
+  line-height: 1.3;
+}
+.manifesto p { text-align: center; margin: 0; }
+
+/* ── RULE ─────────────────────────────────────────── */
+.zrule {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 2.5rem 0;
+}
+.zrule-thick { flex: 2; height: 2px; background: #fff; }
+.zrule-dot   { width: 5px; height: 5px; background: #fff; }
+.zrule-thin  { flex: 1; height: 0.5px; background: rgba(255,255,255,0.4); }
+.zrule-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  padding: 0 0.5rem;
+}
+
+/* ── LETTERS ──────────────────────────────────────── */
+.letters { margin-top: 3rem; }
+.letters h2 {
+  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 1.5rem;
+}
+
+/* ── FOOTER ───────────────────────────────────────── */
+.footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.8;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────── */
+@media (max-width: 500px) {
+  body { padding: 1.5rem 1rem 3rem; }
+  article h1 { font-size: 1.8rem; }
+  .masthead-title { font-size: 2.5rem; }
+  .manifesto { font-size: 1.1rem; padding: 1.5rem; }
+}
