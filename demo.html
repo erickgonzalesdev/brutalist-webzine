@@ -15,118 +15,358 @@ html, body {
   line-height: 1.65;
 }
 
-body {
+/* ── FULL-VIEWPORT SECTIONS ───────────────────────── */
+.page-cover,
+.article-cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 500px;
+  overflow: hidden;
+  background: #111;
+}
+
+.page-cover img,
+.article-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ── COVER PAGE ───────────────────────────────────── */
+.page-cover .cover-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem;
+}
+
+.cover-issue-line {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 0.4rem;
+}
+
+.cover-title {
+  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 0.6rem;
+}
+
+.cover-rule {
+  height: 1px;
+  background: rgba(255,255,255,0.5);
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* ── INSIDE / BACK COVERS ─────────────────────────── */
+.inside-cover,
+.inside-back-cover,
+.back-cover {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #111;
+}
+
+.inside-cover img,
+.inside-back-cover img,
+.back-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.inside-cover-text,
+.inside-back-cover-text {
+  position: relative;
+  z-index: 2;
+  padding: 2.5rem;
+  max-width: 420px;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.inside-cover-label,
+.inside-back-cover-label {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  z-index: 2;
+}
+
+.back-cover .cover-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem;
+}
+
+.back-cover-tagline {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.4rem;
+}
+
+/* ── ARTICLE COVER (full-bleed hero before body) ──── */
+.article-cover .article-cover-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+}
+
+.article-cover-meta {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 0.5rem;
+}
+
+.article-cover-title {
+  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
+  font-size: clamp(2rem, 7vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.article-cover-author {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.article-cover-author::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background: #fff;
+}
+
+/* ── CONTENT WRAPPER ──────────────────────────────── */
+.content {
   max-width: 720px;
   margin: 0 auto;
-  padding: 2.5rem 1.75rem 4rem;
+  padding: 0 1.75rem;
 }
 
 /* ── MASTHEAD ─────────────────────────────────────── */
 .masthead {
-  margin-bottom: 3rem;
-  padding-bottom: 1.5rem;
+  padding: 3rem 0 2rem;
 }
+
 .masthead-issue {
-  font-size: 0.65rem;
-  letter-spacing: 0.25em;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
   color: rgba(255,255,255,0.4);
   text-transform: uppercase;
   margin-bottom: 0.5rem;
 }
+
 .masthead-title {
   font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
-  font-size: 3.5rem;
-  font-weight: 300;
-  letter-spacing: -0.03em;
-  line-height: 1;
+  font-size: clamp(3rem, 12vw, 6.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
   text-transform: uppercase;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
+
 .masthead-rule {
   display: flex;
   align-items: center;
-  gap: 0;
   height: 6px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 2.5rem;
 }
+
 .masthead-rule-thick { flex: 2; height: 4px; background: #fff; }
-.masthead-rule-dot   { width: 6px; height: 6px; background: #fff; margin: 0 2px; }
-.masthead-rule-thin  { flex: 1; height: 1px; background: #fff; }
+.masthead-rule-dot   { width: 7px; height: 7px; background: #fff; margin: 0 3px; flex-shrink: 0; }
+.masthead-rule-thin  { flex: 1; height: 1px; background: rgba(255,255,255,0.3); }
 
 /* ── TOC ──────────────────────────────────────────── */
-.toc { margin-bottom: 2rem; }
+.toc { margin-bottom: 2.5rem; }
+
 .toc-entry {
   display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  padding: 0.2rem 0;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
+  align-items: center;
+  padding: 0.25rem 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  gap: 0;
 }
-.toc-entry-num  { color: #fff; font-weight: bold; min-width: 2em; }
-.toc-entry-fill { flex: 1; border-bottom: 1px dotted rgba(255,255,255,0.15); margin: 0 0.5rem; height: 1em; }
-.toc-entry-title { flex: none; }
 
-/* ── ARTICLE ──────────────────────────────────────── */
-article {
-  margin: 3rem 0 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255,255,255,0.15);
+.toc-entry-num {
+  color: #fff;
+  font-weight: bold;
+  min-width: 1.8em;
+  flex-shrink: 0;
 }
-.article-label {
-  font-size: 0.65rem;
+
+.toc-entry-fill {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+  margin: 0 0.6rem;
+}
+
+.toc-entry-title {
+  text-align: right;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+/* ── ZRULE ────────────────────────────────────────── */
+.zrule {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 2.5rem 0;
+}
+
+.zrule-thick { flex: 2; height: 2px; background: #fff; }
+.zrule-dot   { width: 5px; height: 5px; background: #fff; flex-shrink: 0; }
+.zrule-thin  { flex: 1; height: 0.5px; background: rgba(255,255,255,0.35); }
+
+.zrule-label {
+  font-size: 0.58rem;
   letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  padding: 0 0.6rem;
+  flex-shrink: 0;
+}
+
+/* ── ARTICLE BODY ─────────────────────────────────── */
+article {
+  padding: 2.5rem 0 1rem;
+}
+
+.article-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
   color: rgba(255,255,255,0.4);
   text-transform: uppercase;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
-.article-label::before { content: "——  "; }
+
+.article-label::before {
+  content: "";
+  display: inline-block;
+  width: 1.4rem;
+  height: 1px;
+  background: rgba(255,255,255,0.4);
+}
+
+.article-label::after {
+  content: "";
+  display: inline-block;
+  width: 1.4rem;
+  height: 1px;
+  background: rgba(255,255,255,0.4);
+}
+
 article h1 {
   font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
-  font-size: 2.4rem;
-  font-weight: 300;
-  line-height: 1.05;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.6rem;
+  letter-spacing: -0.025em;
+  margin-bottom: 0;
 }
+
 .article-rule {
   display: flex;
   height: 1px;
-  margin: 0.8rem 0 1.2rem;
+  margin: 0.7rem 0 1.3rem;
 }
+
 .article-rule-a { flex: 2; background: #fff; }
-.article-rule-b { flex: 1; background: rgba(255,255,255,0.2); }
+.article-rule-b { flex: 1; background: rgba(255,255,255,0.18); }
 
 /* ── BYLINE ───────────────────────────────────────── */
 .byline {
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.5);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.45);
   text-transform: uppercase;
   margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
-.byline::before { content: "—— "; color: #fff; }
 
-/* ── IMAGE ────────────────────────────────────────── */
+.byline::before {
+  content: "";
+  display: inline-block;
+  width: 1.4rem;
+  height: 1px;
+  background: #fff;
+}
+
+/* ── ARTICLE IMAGE ────────────────────────────────── */
 .article-image {
   text-align: center;
-  margin: 1.5rem 0;
+  margin: 1.5rem 0 1rem;
 }
+
 .article-image img {
   max-height: 28em;
   max-width: 100%;
   object-fit: contain;
 }
+
 .article-image figcaption {
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.35);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.3);
   text-transform: uppercase;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
 }
+
 .article-image figcaption::before { content: '"/ '; }
 
 /* ── BODY TEXT ────────────────────────────────────── */
@@ -138,282 +378,401 @@ p {
 
 /* ── PULL-QUOTE ───────────────────────────────────── */
 .pull-quote {
-  border-left: 2px solid #fff;
-  padding: 0.5rem 0 0.5rem 1.25rem;
   margin: 2rem 0;
+  padding-top: 0.5rem;
 }
+
+.pull-quote-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+
+.pull-quote-label::before { content: "  "; }
+.pull-quote-label::after  { content: "  "; }
+
+.pull-quote-rule {
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  margin-bottom: 0.8rem;
+}
+
 .pull-quote blockquote {
   font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
-  font-size: 1.4rem;
-  font-weight: 300;
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
+  font-weight: 700;
   line-height: 1.25;
   margin-bottom: 0.6rem;
+  padding-left: 1rem;
+  border-left: 2px solid #fff;
 }
+
 .pull-quote cite {
   display: block;
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.35);
   font-style: normal;
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
-.pull-quote cite::before { content: "—— "; color: #fff; }
+
+.pull-quote cite::before {
+  content: "";
+  display: inline-block;
+  width: 1.4rem;
+  height: 1px;
+  background: #fff;
+}
 
 /* ── CALLOUT ──────────────────────────────────────── */
 .callout {
   border-left: 3px solid #fff;
   padding-left: 1.1rem;
-  margin: 2rem 0;
+  margin: 1.8rem 0;
 }
+
 .callout-title {
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
-  margin-bottom: 0.5rem;
-}
-.callout-body p { margin-bottom: 0.5em; }
-
-/* ── MANIFESTO ────────────────────────────────────── */
-.manifesto {
-  background: #fff;
-  color: #000;
-  padding: 2rem 2.5rem;
-  margin: 2.5rem 0;
-  text-align: center;
-  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
-  font-size: 1.35rem;
-  font-weight: 300;
-  line-height: 1.3;
-}
-.manifesto p { text-align: center; margin: 0; }
-
-/* ── RULE ─────────────────────────────────────────── */
-.zrule {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 2.5rem 0;
-}
-.zrule-thick { flex: 2; height: 2px; background: #fff; }
-.zrule-dot   { width: 5px; height: 5px; background: #fff; }
-.zrule-thin  { flex: 1; height: 0.5px; background: rgba(255,255,255,0.4); }
-.zrule-label {
   font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-  padding: 0 0.5rem;
-}
-
-/* ── LETTERS ──────────────────────────────────────── */
-.letters { margin-top: 3rem; }
-.letters h2 {
-  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
-  font-size: 0.7rem;
-  font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.4);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+
+.callout-title::after {
+  content: "";
+  display: inline-block;
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+}
+
+/* ── MANIFESTO ────────────────────────────────────── */
+.manifesto {
+  border-top: 1px solid rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding: 1.5rem 0;
+  margin: 2.5rem 0;
+}
+
+.manifesto p {
+  font-family: "Space Grotesk", "Liberation Sans", Arial, sans-serif;
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
+  font-weight: 300;
+  line-height: 1.2;
+  text-align: left;
+  margin: 0;
+  color: #fff;
+}
+
+/* ── LETTERS ──────────────────────────────────────── */
+.letters { margin-top: 1rem; }
 
 /* ── FOOTER ───────────────────────────────────────── */
 .footer {
-  margin-top: 4rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 3rem;
+  padding: 1.5rem 0 4rem;
   text-align: center;
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  line-height: 1.8;
+  color: rgba(255,255,255,0.25);
+  line-height: 1.9;
 }
 
 /* ── RESPONSIVE ───────────────────────────────────── */
 @media (max-width: 500px) {
-  body { padding: 1.5rem 1rem 3rem; }
-  article h1 { font-size: 1.8rem; }
-  .masthead-title { font-size: 2.5rem; }
-  .manifesto { font-size: 1.1rem; padding: 1.5rem; }
+  .content { padding: 0 1rem; }
+  .cover-overlay, .article-cover-overlay, .inside-cover-text, .inside-back-cover-text { padding: 1.5rem; }
+  .manifesto p { font-size: 1.4rem; }
 }
 </style>
-    <div class="masthead">
-      <div class="masthead-issue">VOID DISPATCH — ISSUE 03 — AUTUMN 2025</div>
-      <div class="masthead-title">VOID DISPATCH</div>
-      <div class="masthead-rule">
-        <div class="masthead-rule-thick"></div>
-        <p><span class="masthead-rule-dot"></span></p>
-        <div class="masthead-rule-thin"></div>
+    <div class="page-cover">
+      <img src="image1.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+      <div class="cover-overlay">
+        <div class="cover-issue-line">NO. 03 · AUTUMN 2025</div>
+        <div class="cover-title">VOID DISPATCH</div>
+        <div class="cover-rule"></div>
       </div>
     </div>
-    <div class="toc">
-      <div class="toc-entry"><span class="toc-entry-num">1</span> <span class="toc-entry-title">CITIES THAT NEVER SLEEP</span></div>
-      <div class="toc-entry"><span class="toc-entry-num">2</span> <span class="toc-entry-title">THREE WAYS TO DISAPPEAR</span></div>
-      <div class="toc-entry"><span class="toc-entry-num">3</span> <span class="toc-entry-title">THE LAST PAYPHONE</span></div>
-      <div class="toc-entry"><span class="toc-entry-num">4</span> <span class="toc-entry-title">SMALL GRID THEORY</span></div>
-      <div class="toc-entry"><span class="toc-entry-num">5</span> <span class="toc-entry-title">THE MAINTENANCE WORKERS</span></div>
-      <div class="toc-entry"><span class="toc-entry-num">6</span> <span class="toc-entry-title">THE SIGNAL LAYER</span></div>
+    <div class="inside-cover">
+      <img src="image2.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+      <div class="inside-cover-text">
+        <p><strong>Void Dispatch</strong> is a zine about cities, infrastructure, and the systems we live inside. Free to read. Free to print. Free to leave somewhere.</p>
+        <p>Contributing writers: Dana Ferris, M. Okafor, T. Nakamura, S. Reyes, P. Voss.</p>
+        <p>Printed on whatever you have. void-dispatch @ proton.me</p>
+      </div>
+      <div class="inside-cover-label">INSIDE COVER</div>
     </div>
-    <div class="zrule">
-      <div class="zrule-thick"></div>
-      <p><span class="zrule-dot"></span></p>
-      <div class="zrule-thin"></div>
-    </div>
-    <article>
-      <div class="article-label">ARTICLE</div>
-      <h1>CITIES THAT NEVER SLEEP</h1>
-      <div class="article-rule">
-        <div class="article-rule-a"></div>
-        <div class="article-rule-b"></div>
+    <div class="content">
+      <div class="masthead">
+        <div class="masthead-issue">NO. 03 · AUTUMN 2025</div>
+        <div class="masthead-title">VOID DISPATCH</div>
+        <div class="masthead-rule">
+          <div class="masthead-rule-thick"></div>
+          <p><span class="masthead-rule-dot"></span></p>
+          <div class="masthead-rule-thin"></div>
+        </div>
       </div>
-      <div class="byline">DANA FERRIS</div>
-      <figure class="article-image">
-        <img src="rifle.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
-        <figcaption>fulfillment center, outer ring road</figcaption>
-      </figure>
-      <p>There is a version of the 24-hour city that is glamorous. Jazz clubs. Diners. The last bus home and someone interesting on it. That version existed, briefly, in a handful of places, and it was good.</p>
-      <p>The version we have now is different. It is <strong>logistics</strong>. It is a warehouse that cannot go dark because the sortation algorithm runs continuously and the humans inside it are cheaper than the reconfiguration cost of stopping.</p>
-      <p>The romantic 24-hour city was organized around <em>desire</em>. Someone wanted to be there at 3am. The logistical 24-hour city is organized around throughput. No one wants to be there. They are there because the model requires it.</p>
-      <div class="pull-quote">
-        <blockquote>The lights are always on here. That used to mean something.</blockquote>
-        <p><cite>OUTSIDE A FULFILLMENT CENTER, 3:14AM</cite></p>
+      <div class="toc">
+        <div class="toc-entry"><span class="toc-entry-num">1</span> <span class="toc-entry-fill"></span> <span class="toc-entry-title">CITIES THAT NEVER SLEEP</span></div>
+        <div class="toc-entry"><span class="toc-entry-num">2</span> <span class="toc-entry-fill"></span> <span class="toc-entry-title">THREE WAYS TO DISAPPEAR</span></div>
+        <div class="toc-entry"><span class="toc-entry-num">3</span> <span class="toc-entry-fill"></span> <span class="toc-entry-title">THE LAST PAYPHONE</span></div>
+        <div class="toc-entry"><span class="toc-entry-num">4</span> <span class="toc-entry-fill"></span> <span class="toc-entry-title">SMALL GRID THEORY</span></div>
+        <div class="toc-entry"><span class="toc-entry-num">5</span> <span class="toc-entry-fill"></span> <span class="toc-entry-title">THE MAINTENANCE WORKERS</span></div>
+        <div class="toc-entry"><span class="toc-entry-num">6</span> <span class="toc-entry-fill"></span> <span class="toc-entry-title">THE SIGNAL LAYER</span></div>
       </div>
-      <p>This is the distinction that city planners, when they invoke "vibrancy," consistently fail to make. Vibrancy is not a property of illuminated windows. It is a property of people choosing to be somewhere.</p>
-      <p>We built infrastructure for the night and called it nightlife. We built coverage for every hour and called it community. We lit every corner and called it safety. None of these substitutions are neutral.</p>
-      <div class="manifesto">A city that cannot sleep is not awake. It is running a process.</div>
-    </article>
-    <article>
-      <div class="article-label">ARTICLE</div>
-      <h1>THREE WAYS TO DISAPPEAR</h1>
-      <div class="article-rule">
-        <div class="article-rule-a"></div>
-        <div class="article-rule-b"></div>
-      </div>
-      <div class="byline">M. OKAFOR</div>
-      <figure class="article-image">
-        <img src="soldiers.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
-        <figcaption>analog, unconnected</figcaption>
-      </figure>
-      <p>This is not a paranoia piece. This is a practice piece. Paranoia assumes a specific adversary. Practice assumes a general condition and responds proportionally.</p>
-      <p><strong>Method one: go analog for the boring stuff.</strong> Most surveillance is passive and opportunistic. It collects whatever flows through the pipes. A notebook does not have a privacy policy. A pocket calendar does not sync to a data broker. Shopping lists, personal notes, appointments with people you trust — none of these need a network.</p>
-      <p><strong>Method two: reduce identity surface area.</strong> You have more accounts than you need. Some are attached to your real name, phone number, a payment method, a device fingerprint. The reduction is not deactivation. It is to stop creating new ones. Every new account is a new exposure surface.</p>
-      <p><strong>Method three: make boring choices visible.</strong> Notice when you are making a choice. Not every choice requires a different decision. But many defaults were set by someone whose interests are not yours. Default on: location sharing, analytics, cross-app tracking, personalized ads. Reversing these — not in every case, just deliberately — changes what flows through the pipes.</p>
-      <div class="callout">
-        <div class="callout-title">THE ACTUAL THREAT MODEL</div>
-        <div class="callout-body">You are probably not being targeted specifically. You are in a database being queried by systems with no opinion about you as a person. The goal is not to escape the database. The goal is to make the query less useful.</div>
-      </div>
-    </article>
-    <article>
-      <div class="article-label">ARTICLE</div>
-      <h1>THE LAST PAYPHONE</h1>
-      <div class="article-rule">
-        <div class="article-rule-a"></div>
-        <div class="article-rule-b"></div>
-      </div>
-      <div class="byline">T. NAKAMURA</div>
-      <figure class="article-image">
-        <img src="rifle.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
-        <figcaption>delancey and essex, 2019</figcaption>
-      </figure>
-      <p><em>A photo essay without photos, because we lost the memory card.</em></p>
-      <p>The payphone on Delancey and Essex was removed in 2019. There is a LinkNYC kiosk there now. The kiosk offers free calls, fast Wi-Fi, and a screen that displays advertisements. It also collects device identifiers from passing phones.</p>
-      <p>The payphone offered free emergency calls and required a quarter for everything else. It collected nothing. It remembered nothing. When you hung up, the conversation was over.</p>
-      <p>This was not a bug. This was a feature that nobody wrote down because nobody thought it would need to be defended.</p>
-      <div class="pull-quote">
-        <blockquote>You could call anyone and they couldn't call you back unless they already knew where you were.</blockquote>
-        <p><cite>A PERSON WHO REMEMBERED THE QUARTER</cite></p>
-      </div>
-      <p>The last payphone in New York City was removed from a hotel lobby in 2022. It is now in a museum. Which is the correct place for things that society has decided it no longer needs, and which is also the correct place to go to feel the specific grief of infrastructure loss.</p>
-      <p>The kiosk is faster. The kiosk is free. The kiosk is always available. The kiosk knows your phone was near it at 11:47am on a Tuesday in March.</p>
-      <p>The payphone knew nothing. That was the whole point.</p>
-    </article>
-    <article>
-      <div class="article-label">ARTICLE</div>
-      <h1>SMALL GRID THEORY</h1>
-      <div class="article-rule">
-        <div class="article-rule-a"></div>
-        <div class="article-rule-b"></div>
-      </div>
-      <div class="byline">S. REYES</div>
-      <figure class="article-image">
-        <img src="handgun.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
-        <figcaption>small block grid, central district</figcaption>
-      </figure>
-      <p>The most livable neighborhoods in most cities share one physical characteristic that urban planners consistently undervalue: <strong>small blocks</strong>. Not "walkable" in the sense of having sidewalks. Not "mixed-use" in the sense of having a Starbucks on the ground floor of a condo tower. Small blocks. Short distances between intersections. Many choices per square mile.</p>
-      <p>The reason small blocks win is not aesthetic. It is combinatorial. A grid of small blocks offers exponentially more route choices than a grid of large blocks covering the same area. More route choices means more foot traffic distributed across more paths means more storefronts viable means more activity.</p>
-      <p>Large blocks produce dead zones. Not because they are ugly — though they often are — but because a single failed anchor tenant takes an entire frontage offline. On a small block, one failed storefront is one failed storefront. On a superblock, it is four hundred feet of blank wall.</p>
-      <div class="manifesto">Density is not the variable. Granularity is the variable.</div>
-      <p>You cannot retrofit walkability onto a large-block grid by adding mixed-use zoning. You can add a coffee shop on the ground floor of a 700-foot-frontage building and it will feel like a coffee shop in an airport. Because it is.</p>
-      <p>The blocks have to be small first. Everything else follows from the blocks. Jane Jacobs said this in 1961. We have spent sixty years building the opposite.</p>
-    </article>
-    <article>
-      <div class="article-label">ARTICLE</div>
-      <h1>THE MAINTENANCE WORKERS</h1>
-      <div class="article-rule">
-        <div class="article-rule-a"></div>
-        <div class="article-rule-b"></div>
-      </div>
-      <div class="byline">P. VOSS</div>
-      <figure class="article-image">
-        <img src="rifle.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
-        <figcaption>substation crew, 2:30am</figcaption>
-      </figure>
-      <p>Every city has two kinds of workers. The ones you see and the ones who make it possible for you to see them. The street-level economy — cafés, shops, deliveries — depends on a substrate that is mostly invisible: the people who fix the pipes, patch the road, swap the transformer, re-hang the signal.</p>
-      <p>They work at 2am because the work cannot happen when the city is using itself. The road has to be empty. The water main has to be isolated. The substation has to be de-energized. The shift starts at midnight and ends before anyone notices it happened.</p>
-      <p>This is by design. The ideal maintenance event is one that nobody knows occurred. The pipe doesn't burst, so there's no story. The signal doesn't fail, so there's no backup. The transformer holds, so the hospital stays on.</p>
-      <div class="callout">
-        <div class="callout-title">INVISIBILITY AS SUCCESS METRIC</div>
-        <div class="callout-body">The KPI for infrastructure maintenance is the absence of events. Nothing happened. That is the goal. That is how you know it worked.</div>
-      </div>
-      <p>We have built an economy around visibility — metrics, dashboards, likes, impressions. And then we have built the physical world on top of people whose best outcome is that you never think about them at all.</p>
-    </article>
-    <article>
-      <div class="article-label">ARTICLE</div>
-      <h1>THE SIGNAL LAYER</h1>
-      <div class="article-rule">
-        <div class="article-rule-a"></div>
-        <div class="article-rule-b"></div>
-      </div>
-      <div class="byline">P. VOSS</div>
-      <figure class="article-image">
-        <img src="handgun.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
-        <figcaption>mesh node, lamp post array</figcaption>
-      </figure>
-      <p>Every city runs on a layer you cannot see. Not the pipes, not the wires — those are findable, mappable, orange-flagged before you dig. The signal layer is different. It is the mesh of transmissions that tells the traffic light what the car did three blocks away, that tells the transit authority the bus is running four minutes late, that tells the logistics platform the driver has paused.</p>
-      <p>The signal layer is where the city becomes legible to itself. Without it, the buses are just buses. With it, the buses are a dataset. The streets are a dataset. The pedestrians are a dataset. The city reads itself continuously and the reading changes what it does.</p>
-      <p>Most people do not know the signal layer exists. They know the wifi. They know the cell signal. They do not know the mesh, the LIDAR, the Bluetooth sniffers embedded in lamp posts, the license plate readers every four blocks, the acoustic monitors that can tell a gunshot from a car backfire with ninety-three percent accuracy.</p>
-      <div class="callout">
-        <div class="callout-title">WHAT THE SIGNAL LAYER KNOWS</div>
-        <div class="callout-body">Where you were. How fast you moved. What device you carried. Whether you stopped. For how long. Whether you stopped at that spot before.</div>
-      </div>
-      <p>The signal layer does not forget. The buses forget. The people forget. The signal layer keeps a log.</p>
-    </article>
-    <div class="zrule">
-      <div class="zrule-thick"></div>
-      <p><span class="zrule-dot"></span> <span class="zrule-label">LETTERS</span></p>
-      <div class="zrule-thin"></div>
-    </div>
-    <div class="letters">
-      <div class="callout">
-        <div class="callout-title">ON THE BUS PIECE (ISSUE 02)</div>
-        <div class="callout-body">You said the bus is slow because of choices, not physics. I've been thinking about this for three weeks. You're right and I hate it. — <strong>J.W., Chicago</strong></div>
-      </div>
-      <div class="callout">
-        <div class="callout-title">CORRECTION</div>
-        <div class="callout-body">The Houston light rail does not go to the airport. We stated that it did. It does not. We regret this. — <strong>the editors</strong></div>
-      </div>
-      <div class="callout">
-        <div class="callout-title">SUBMISSIONS</div>
-        <div class="callout-body">800 words or fewer. No pitches. Send it done. Plaintext. — void-dispatch@proton.me</div>
+      <div class="zrule">
+        <div class="zrule-thick"></div>
+        <p><span class="zrule-dot"></span></p>
+        <div class="zrule-thin"></div>
       </div>
     </div>
-    <div class="zrule">
-      <div class="zrule-thick"></div>
-      <p><span class="zrule-dot"></span> <span class="zrule-label">END</span></p>
-      <div class="zrule-thin"></div>
+    <div class="article-cover">
+      <img src="image3.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div class="article-cover-overlay">
+        <div class="article-cover-meta">NO. 03 · AUTUMN 2025</div>
+        <div class="article-cover-title">CITIES THAT NEVER SLEEP</div>
+        <div class="article-cover-author">DANA FERRIS</div>
+      </div>
     </div>
-    <div class="footer">VOID DISPATCH — FREE — PRINT IT — LEAVE IT SOMEWHERE<br>ISSUE 04: WINTER 2025</div>
+    <div class="content">
+      <article>
+        <div class="article-label">ARTICLE</div>
+        <h1>CITIES THAT NEVER SLEEP</h1>
+        <div class="article-rule">
+          <div class="article-rule-a"></div>
+          <div class="article-rule-b"></div>
+        </div>
+        <div class="byline">DANA FERRIS</div>
+        <figure class="article-image">
+          <img src="rifle.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
+          <figcaption>FULFILLMENT CENTER, OUTER RING ROAD</figcaption>
+        </figure>
+        <p>There is a version of the 24-hour city that is glamorous. Jazz clubs. Diners. The last bus home and someone interesting on it. That version existed, briefly, in a handful of places, and it was good.</p>
+        <p>The version we have now is different. It is <strong>logistics</strong>. It is a warehouse that cannot go dark because the sortation algorithm runs continuously and the humans inside it are cheaper than the reconfiguration cost of stopping.</p>
+        <p>The romantic 24-hour city was organized around <em>desire</em>. Someone wanted to be there at 3am. The logistical 24-hour city is organized around throughput. No one wants to be there. They are there because the model requires it.</p>
+        <div class="pull-quote">
+          <div class="pull-quote-label">QUOTE</div>
+          <div class="pull-quote-rule"></div>
+          <blockquote>The lights are always on here. That used to mean something.</blockquote>
+          <p><cite>OUTSIDE A FULFILLMENT CENTER, 3:14AM</cite></p>
+        </div>
+        <p>This is the distinction that city planners, when they invoke "vibrancy," consistently fail to make. Vibrancy is not a property of illuminated windows. It is a property of people choosing to be somewhere.</p>
+        <p>We built infrastructure for the night and called it nightlife. We built coverage for every hour and called it community. We lit every corner and called it safety. None of these substitutions are neutral.</p>
+        <div class="manifesto">A city that cannot sleep is not awake. It is running a process.</div>
+      </article>
+    </div>
+    <div class="article-cover">
+      <img src="image2.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div class="article-cover-overlay">
+        <div class="article-cover-meta">NO. 03 · AUTUMN 2025</div>
+        <div class="article-cover-title">THREE WAYS TO DISAPPEAR</div>
+        <div class="article-cover-author">M. OKAFOR</div>
+      </div>
+    </div>
+    <div class="content">
+      <article>
+        <div class="article-label">ARTICLE</div>
+        <h1>THREE WAYS TO DISAPPEAR</h1>
+        <div class="article-rule">
+          <div class="article-rule-a"></div>
+          <div class="article-rule-b"></div>
+        </div>
+        <div class="byline">M. OKAFOR</div>
+        <figure class="article-image">
+          <img src="soldiers.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
+          <figcaption>ANALOG, UNCONNECTED</figcaption>
+        </figure>
+        <p>This is not a paranoia piece. This is a practice piece. Paranoia assumes a specific adversary. Practice assumes a general condition and responds proportionally.</p>
+        <p><strong>Method one: go analog for the boring stuff.</strong> Most surveillance is passive and opportunistic. It collects whatever flows through the pipes. A notebook does not have a privacy policy. A pocket calendar does not sync to a data broker. Shopping lists, personal notes, appointments with people you trust — none of these need a network.</p>
+        <p><strong>Method two: reduce identity surface area.</strong> You have more accounts than you need. Some are attached to your real name, phone number, a payment method, a device fingerprint. The reduction is not deactivation. It is to stop creating new ones. Every new account is a new exposure surface.</p>
+        <p><strong>Method three: make boring choices visible.</strong> Notice when you are making a choice. Not every choice requires a different decision. But many defaults were set by someone whose interests are not yours. Default on: location sharing, analytics, cross-app tracking, personalized ads. Reversing these — not in every case, just deliberately — changes what flows through the pipes.</p>
+        <div class="callout">
+          <div class="callout-title">THE ACTUAL THREAT MODEL</div>
+          <div class="callout-body">You are probably not being targeted specifically. You are in a database being queried by systems with no opinion about you as a person. The goal is not to escape the database. The goal is to make the query less useful.</div>
+        </div>
+      </article>
+    </div>
+    <div class="article-cover">
+      <img src="image3.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div class="article-cover-overlay">
+        <div class="article-cover-meta">NO. 03 · AUTUMN 2025</div>
+        <div class="article-cover-title">THE LAST PAYPHONE</div>
+        <div class="article-cover-author">T. NAKAMURA</div>
+      </div>
+    </div>
+    <div class="content">
+      <article>
+        <div class="article-label">ARTICLE</div>
+        <h1>THE LAST PAYPHONE</h1>
+        <div class="article-rule">
+          <div class="article-rule-a"></div>
+          <div class="article-rule-b"></div>
+        </div>
+        <div class="byline">T. NAKAMURA</div>
+        <figure class="article-image">
+          <img src="rifle.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
+          <figcaption>DELANCEY AND ESSEX, 2019</figcaption>
+        </figure>
+        <p><em>A photo essay without photos, because we lost the memory card.</em></p>
+        <p>The payphone on Delancey and Essex was removed in 2019. There is a LinkNYC kiosk there now. The kiosk offers free calls, fast Wi-Fi, and a screen that displays advertisements. It also collects device identifiers from passing phones.</p>
+        <p>The payphone offered free emergency calls and required a quarter for everything else. It collected nothing. It remembered nothing. When you hung up, the conversation was over.</p>
+        <p>This was not a bug. This was a feature that nobody wrote down because nobody thought it would need to be defended.</p>
+        <div class="pull-quote">
+          <div class="pull-quote-label">QUOTE</div>
+          <div class="pull-quote-rule"></div>
+          <blockquote>You could call anyone and they couldn't call you back unless they already knew where you were.</blockquote>
+          <p><cite>A PERSON WHO REMEMBERED THE QUARTER</cite></p>
+        </div>
+        <p>The last payphone in New York City was removed from a hotel lobby in 2022. It is now in a museum. Which is the correct place for things that society has decided it no longer needs, and which is also the correct place to go to feel the specific grief of infrastructure loss.</p>
+        <p>The kiosk is faster. The kiosk is free. The kiosk is always available. The kiosk knows your phone was near it at 11:47am on a Tuesday in March.</p>
+        <p>The payphone knew nothing. That was the whole point.</p>
+      </article>
+    </div>
+    <div class="article-cover">
+      <img src="image4.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div class="article-cover-overlay">
+        <div class="article-cover-meta">NO. 03 · AUTUMN 2025</div>
+        <div class="article-cover-title">SMALL GRID THEORY</div>
+        <div class="article-cover-author">S. REYES</div>
+      </div>
+    </div>
+    <div class="content">
+      <article>
+        <div class="article-label">ARTICLE</div>
+        <h1>SMALL GRID THEORY</h1>
+        <div class="article-rule">
+          <div class="article-rule-a"></div>
+          <div class="article-rule-b"></div>
+        </div>
+        <div class="byline">S. REYES</div>
+        <figure class="article-image">
+          <img src="handgun.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
+          <figcaption>SMALL BLOCK GRID, CENTRAL DISTRICT</figcaption>
+        </figure>
+        <p>The most livable neighborhoods in most cities share one physical characteristic that urban planners consistently undervalue: <strong>small blocks</strong>. Not "walkable" in the sense of having sidewalks. Not "mixed-use" in the sense of having a Starbucks on the ground floor of a condo tower. Small blocks. Short distances between intersections. Many choices per square mile.</p>
+        <p>The reason small blocks win is not aesthetic. It is combinatorial. A grid of small blocks offers exponentially more route choices than a grid of large blocks covering the same area. More route choices means more foot traffic distributed across more paths means more storefronts viable means more activity.</p>
+        <p>Large blocks produce dead zones. Not because they are ugly — though they often are — but because a single failed anchor tenant takes an entire frontage offline. On a small block, one failed storefront is one failed storefront. On a superblock, it is four hundred feet of blank wall.</p>
+        <div class="manifesto">Density is not the variable. Granularity is the variable.</div>
+        <p>You cannot retrofit walkability onto a large-block grid by adding mixed-use zoning. You can add a coffee shop on the ground floor of a 700-foot-frontage building and it will feel like a coffee shop in an airport. Because it is.</p>
+        <p>The blocks have to be small first. Everything else follows from the blocks. Jane Jacobs said this in 1961. We have spent sixty years building the opposite.</p>
+      </article>
+    </div>
+    <div class="article-cover">
+      <img src="image2.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div class="article-cover-overlay">
+        <div class="article-cover-meta">NO. 03 · AUTUMN 2025</div>
+        <div class="article-cover-title">THE MAINTENANCE WORKERS</div>
+        <div class="article-cover-author">P. VOSS</div>
+      </div>
+    </div>
+    <div class="content">
+      <article>
+        <div class="article-label">ARTICLE</div>
+        <h1>THE MAINTENANCE WORKERS</h1>
+        <div class="article-rule">
+          <div class="article-rule-a"></div>
+          <div class="article-rule-b"></div>
+        </div>
+        <div class="byline">P. VOSS</div>
+        <figure class="article-image">
+          <img src="rifle.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
+          <figcaption>SUBSTATION CREW, 2:30AM</figcaption>
+        </figure>
+        <p>Every city has two kinds of workers. The ones you see and the ones who make it possible for you to see them. The street-level economy — cafés, shops, deliveries — depends on a substrate that is mostly invisible: the people who fix the pipes, patch the road, swap the transformer, re-hang the signal.</p>
+        <p>They work at 2am because the work cannot happen when the city is using itself. The road has to be empty. The water main has to be isolated. The substation has to be de-energized. The shift starts at midnight and ends before anyone notices it happened.</p>
+        <p>This is by design. The ideal maintenance event is one that nobody knows occurred. The pipe doesn't burst, so there's no story. The signal doesn't fail, so there's no backup. The transformer holds, so the hospital stays on.</p>
+        <div class="callout">
+          <div class="callout-title">INVISIBILITY AS SUCCESS METRIC</div>
+          <div class="callout-body">The KPI for infrastructure maintenance is the absence of events. Nothing happened. That is the goal. That is how you know it worked.</div>
+        </div>
+        <p>We have built an economy around visibility — metrics, dashboards, likes, impressions. And then we have built the physical world on top of people whose best outcome is that you never think about them at all.</p>
+      </article>
+    </div>
+    <div class="article-cover">
+      <img src="image1.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div class="article-cover-overlay">
+        <div class="article-cover-meta">NO. 03 · AUTUMN 2025</div>
+        <div class="article-cover-title">THE SIGNAL LAYER</div>
+        <div class="article-cover-author">P. VOSS</div>
+      </div>
+    </div>
+    <div class="content">
+      <article>
+        <div class="article-label">ARTICLE</div>
+        <h1>THE SIGNAL LAYER</h1>
+        <div class="article-rule">
+          <div class="article-rule-a"></div>
+          <div class="article-rule-b"></div>
+        </div>
+        <div class="byline">P. VOSS</div>
+        <figure class="article-image">
+          <img src="handgun.png" style="max-height: 28em; max-width: 100%; object-fit: contain;">
+          <figcaption>MESH NODE, LAMP POST ARRAY</figcaption>
+        </figure>
+        <p>Every city runs on a layer you cannot see. Not the pipes, not the wires — those are findable, mappable, orange-flagged before you dig. The signal layer is different. It is the mesh of transmissions that tells the traffic light what the car did three blocks away, that tells the transit authority the bus is running four minutes late, that tells the logistics platform the driver has paused.</p>
+        <p>The signal layer is where the city becomes legible to itself. Without it, the buses are just buses. With it, the buses are a dataset. The streets are a dataset. The pedestrians are a dataset. The city reads itself continuously and the reading changes what it does.</p>
+        <p>Most people do not know the signal layer exists. They know the wifi. They know the cell signal. They do not know the mesh, the LIDAR, the Bluetooth sniffers embedded in lamp posts, the license plate readers every four blocks, the acoustic monitors that can tell a gunshot from a car backfire with ninety-three percent accuracy.</p>
+        <div class="callout">
+          <div class="callout-title">WHAT THE SIGNAL LAYER KNOWS</div>
+          <div class="callout-body">Where you were. How fast you moved. What device you carried. Whether you stopped. For how long. Whether you stopped at that spot before.</div>
+        </div>
+        <p>The signal layer does not forget. The buses forget. The people forget. The signal layer keeps a log.</p>
+      </article>
+    </div>
+    <div class="content">
+      <div class="zrule">
+        <div class="zrule-thick"></div>
+        <p><span class="zrule-dot"></span> <span class="zrule-label">LETTERS</span></p>
+        <div class="zrule-thin"></div>
+      </div>
+      <div class="letters">
+        <div class="callout">
+          <div class="callout-title">ON THE BUS PIECE (ISSUE 02)</div>
+          <div class="callout-body">You said the bus is slow because of choices, not physics. I've been thinking about this for three weeks. You're right and I hate it. — <strong>J.W., Chicago</strong></div>
+        </div>
+        <div class="callout">
+          <div class="callout-title">CORRECTION</div>
+          <div class="callout-body">The Houston light rail does not go to the airport. We stated that it did. It does not. We regret this. — <strong>the editors</strong></div>
+        </div>
+        <div class="callout">
+          <div class="callout-title">SUBMISSIONS</div>
+          <div class="callout-body">800 words or fewer. No pitches. Send it done. Plaintext. — void-dispatch@ proton.me</div>
+        </div>
+      </div>
+      <div class="zrule">
+        <div class="zrule-thick"></div>
+        <p><span class="zrule-dot"></span> <span class="zrule-label">END</span></p>
+        <div class="zrule-thin"></div>
+      </div>
+      <div class="footer">VOID DISPATCH — FREE — PRINT IT — LEAVE IT SOMEWHERE<br>ISSUE 04: WINTER 2025</div>
+    </div>
+    <div class="inside-back-cover">
+      <img src="image2.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+      <div class="inside-back-cover-text">
+        <p><strong>Next issue:</strong> infrastructure that fights back. Submissions open. 800 words or fewer. No pitches. Send it done.</p>
+        <p>void-dispatch @ proton.me</p>
+      </div>
+      <div class="inside-back-cover-label">INSIDE BACK COVER</div>
+    </div>
+    <div class="back-cover">
+      <img src="image3.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+      <div class="cover-overlay">
+        <div class="back-cover-tagline">FREE — PRINT IT — LEAVE IT SOMEWHERE</div>
+        <div class="cover-title">VOID DISPATCH</div>
+        <div class="cover-issue-line">NO. 03 · AUTUMN 2025</div>
+      </div>
+    </div>
   </body>
 </html>

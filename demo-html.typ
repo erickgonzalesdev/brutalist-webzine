@@ -9,6 +9,11 @@
   body,
 )
 
+#let img-el(src, style: "") = html.elem(
+  "img",
+  attrs: if style != "" { (src: src, style: style) } else { (src: src) },
+)
+
 // ── HELPERS ──────────────────────────────────────────────────────────────────
 
 #let h-zrule(label: none) = e("div", class: "zrule")[
@@ -20,12 +25,15 @@
 
 #let h-toc-entry(title, num) = e("div", class: "toc-entry")[
   #e("span", class: "toc-entry-num")[#num]
+  #e("span", class: "toc-entry-fill")[]
   #e("span", class: "toc-entry-title")[#upper(title)]
 ]
 
 #let h-byline(name) = e("div", class: "byline")[#upper(name)]
 
 #let h-pull-quote(attribution: "", body) = e("div", class: "pull-quote")[
+  #e("div", class: "pull-quote-label")[QUOTE]
+  #e("div", class: "pull-quote-rule")[]
   #e("blockquote", class: none, body)
   #e("cite", class: none)[#upper(attribution)]
 ]
@@ -38,49 +46,93 @@
 #let h-manifesto(body) = e("div", class: "manifesto", body)
 
 #let h-article-image(src, caption: none) = e("figure", class: "article-image")[
-  #html.elem("img", attrs: (src: src, style: "max-height: 28em; max-width: 100%; object-fit: contain;"))
-  #if caption != none { e("figcaption", class: none)[#caption] }
+  #img-el(src, style: "max-height: 28em; max-width: 100%; object-fit: contain;")
+  #if caption != none { e("figcaption", class: none)[#upper(caption)] }
 ]
 
-#let h-article(title, body) = e("article", class: none)[
-  #e("div", class: "article-label")[ARTICLE]
-  #e("h1", class: none)[#upper(title)]
-  #e("div", class: "article-rule")[
-    #e("div", class: "article-rule-a")[]
-    #e("div", class: "article-rule-b")[]
+#let h-article-cover(src, title, author, meta: "NO. 03 · AUTUMN 2025") = e("div", class: "article-cover")[
+  #img-el(src, style: "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")
+  #e("div", class: "article-cover-overlay")[
+    #e("div", class: "article-cover-meta")[#meta]
+    #e("div", class: "article-cover-title")[#upper(title)]
+    #e("div", class: "article-cover-author")[#upper(author)]
   ]
-  #body
+]
+
+#let h-article(title, author, cover-src, body) = [
+  #h-article-cover(cover-src, title, author)
+  #e("div", class: "content")[
+    #e("article", class: none)[
+      #e("div", class: "article-label")[ARTICLE]
+      #e("h1", class: none)[#upper(title)]
+      #e("div", class: "article-rule")[
+        #e("div", class: "article-rule-a")[]
+        #e("div", class: "article-rule-b")[]
+      ]
+      #e("div", class: "byline")[#upper(author)]
+      #body
+    ]
+  ]
 ]
 
 // ── DOCUMENT ─────────────────────────────────────────────────────────────────
 
 #html.elem("style")[#read("demo.css")]
 
-#e("div", class: "masthead")[
-  #e("div", class: "masthead-issue")[VOID DISPATCH — ISSUE 03 — AUTUMN 2025]
-  #e("div", class: "masthead-title")[VOID DISPATCH]
-  #e("div", class: "masthead-rule")[
-    #e("div", class: "masthead-rule-thick")[]
-    #e("span", class: "masthead-rule-dot")[]
-    #e("div", class: "masthead-rule-thin")[]
+// ── FRONT COVER ──────────────────────────────────────────────────────────────
+
+#e("div", class: "page-cover")[
+  #img-el("image1.jpg", style: "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;")
+  #e("div", class: "cover-overlay")[
+    #e("div", class: "cover-issue-line")[NO. 03 · AUTUMN 2025]
+    #e("div", class: "cover-title")[VOID DISPATCH]
+    #e("div", class: "cover-rule")[]
   ]
 ]
 
-#e("div", class: "toc")[
-  #h-toc-entry("Cities That Never Sleep", 1)
-  #h-toc-entry("Three Ways to Disappear", 2)
-  #h-toc-entry("The Last Payphone", 3)
-  #h-toc-entry("Small Grid Theory", 4)
-  #h-toc-entry("The Maintenance Workers", 5)
-  #h-toc-entry("The Signal Layer", 6)
+// ── INSIDE COVER ─────────────────────────────────────────────────────────────
+
+#e("div", class: "inside-cover")[
+  #img-el("image2.jpg", style: "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;")
+  #e("div", class: "inside-cover-text")[
+    *Void Dispatch* is a zine about cities, infrastructure, and the systems we live inside. Free to read. Free to print. Free to leave somewhere.
+
+    Contributing writers: Dana Ferris, M. Okafor, T. Nakamura, S. Reyes, P. Voss.
+
+    Printed on whatever you have.
+    void-dispatch #sym.at proton.me
+  ]
+  #e("div", class: "inside-cover-label")[INSIDE COVER]
 ]
 
-#h-zrule()
+// ── MASTHEAD + TOC ────────────────────────────────────────────────────────────
+
+#e("div", class: "content")[
+  #e("div", class: "masthead")[
+    #e("div", class: "masthead-issue")[NO. 03 · AUTUMN 2025]
+    #e("div", class: "masthead-title")[VOID DISPATCH]
+    #e("div", class: "masthead-rule")[
+      #e("div", class: "masthead-rule-thick")[]
+      #e("span", class: "masthead-rule-dot")[]
+      #e("div", class: "masthead-rule-thin")[]
+    ]
+  ]
+
+  #e("div", class: "toc")[
+    #h-toc-entry("Cities That Never Sleep", 1)
+    #h-toc-entry("Three Ways to Disappear", 2)
+    #h-toc-entry("The Last Payphone", 3)
+    #h-toc-entry("Small Grid Theory", 4)
+    #h-toc-entry("The Maintenance Workers", 5)
+    #h-toc-entry("The Signal Layer", 6)
+  ]
+
+  #h-zrule()
+]
 
 // ── ARTICLE 1 ────────────────────────────────────────────────────────────────
 
-#h-article("Cities That Never Sleep")[
-  #h-byline("Dana Ferris")
+#h-article("Cities That Never Sleep", "Dana Ferris", "image3.jpg")[
   #h-article-image("rifle.png", caption: "fulfillment center, outer ring road")
 
   There is a version of the 24-hour city that is glamorous. Jazz clubs. Diners. The last bus home and someone interesting on it. That version existed, briefly, in a handful of places, and it was good.
@@ -104,8 +156,7 @@
 
 // ── ARTICLE 2 ────────────────────────────────────────────────────────────────
 
-#h-article("Three Ways to Disappear")[
-  #h-byline("M. Okafor")
+#h-article("Three Ways to Disappear", "M. Okafor", "image2.jpg")[
   #h-article-image("soldiers.png", caption: "analog, unconnected")
 
   This is not a paranoia piece. This is a practice piece. Paranoia assumes a specific adversary. Practice assumes a general condition and responds proportionally.
@@ -123,8 +174,7 @@
 
 // ── ARTICLE 3 ────────────────────────────────────────────────────────────────
 
-#h-article("The Last Payphone")[
-  #h-byline("T. Nakamura")
+#h-article("The Last Payphone", "T. Nakamura", "image3.jpg")[
   #h-article-image("rifle.png", caption: "delancey and essex, 2019")
 
   _A photo essay without photos, because we lost the memory card._
@@ -148,8 +198,7 @@
 
 // ── ARTICLE 4 ────────────────────────────────────────────────────────────────
 
-#h-article("Small Grid Theory")[
-  #h-byline("S. Reyes")
+#h-article("Small Grid Theory", "S. Reyes", "image4.jpg")[
   #h-article-image("handgun.png", caption: "small block grid, central district")
 
   The most livable neighborhoods in most cities share one physical characteristic that urban planners consistently undervalue: *small blocks*. Not "walkable" in the sense of having sidewalks. Not "mixed-use" in the sense of having a Starbucks on the ground floor of a condo tower. Small blocks. Short distances between intersections. Many choices per square mile.
@@ -169,8 +218,7 @@
 
 // ── ARTICLE 5 ────────────────────────────────────────────────────────────────
 
-#h-article("The Maintenance Workers")[
-  #h-byline("P. Voss")
+#h-article("The Maintenance Workers", "P. Voss", "image2.jpg")[
   #h-article-image("rifle.png", caption: "substation crew, 2:30am")
 
   Every city has two kinds of workers. The ones you see and the ones who make it possible for you to see them. The street-level economy — cafés, shops, deliveries — depends on a substrate that is mostly invisible: the people who fix the pipes, patch the road, swap the transformer, re-hang the signal.
@@ -188,8 +236,7 @@
 
 // ── ARTICLE 6 ────────────────────────────────────────────────────────────────
 
-#h-article("The Signal Layer")[
-  #h-byline("P. Voss")
+#h-article("The Signal Layer", "P. Voss", "image1.jpg")[
   #h-article-image("handgun.png", caption: "mesh node, lamp post array")
 
   Every city runs on a layer you cannot see. Not the pipes, not the wires — those are findable, mappable, orange-flagged before you dig. The signal layer is different. It is the mesh of transmissions that tells the traffic light what the car did three blocks away, that tells the transit authority the bus is running four minutes late, that tells the logistics platform the driver has paused.
@@ -205,25 +252,52 @@
   The signal layer does not forget. The buses forget. The people forget. The signal layer keeps a log.
 ]
 
-// ── LETTERS ──────────────────────────────────────────────────────────────────
+// ── LETTERS + FOOTER ─────────────────────────────────────────────────────────
 
-#h-zrule(label: "letters")
+#e("div", class: "content")[
+  #h-zrule(label: "letters")
 
-#e("div", class: "letters")[
-  #h-callout(title: "on the bus piece (issue 02)")[
-    You said the bus is slow because of choices, not physics. I've been thinking about this for three weeks. You're right and I hate it. — *J.W., Chicago*
+  #e("div", class: "letters")[
+    #h-callout(title: "on the bus piece (issue 02)")[
+      You said the bus is slow because of choices, not physics. I've been thinking about this for three weeks. You're right and I hate it. — *J.W., Chicago*
+    ]
+    #h-callout(title: "correction")[
+      The Houston light rail does not go to the airport. We stated that it did. It does not. We regret this. — *the editors*
+    ]
+    #h-callout(title: "submissions")[
+      800 words or fewer. No pitches. Send it done. Plaintext. — void-dispatch#sym.at proton.me
+    ]
   ]
-  #h-callout(title: "correction")[
-    The Houston light rail does not go to the airport. We stated that it did. It does not. We regret this. — *the editors*
-  ]
-  #h-callout(title: "submissions")[
-    800 words or fewer. No pitches. Send it done. Plaintext. — void-dispatch\@proton.me
+
+  #h-zrule(label: "end")
+
+  #e("div", class: "footer")[
+    VOID DISPATCH — FREE — PRINT IT — LEAVE IT SOMEWHERE\
+    ISSUE 04: WINTER 2025
   ]
 ]
 
-#h-zrule(label: "end")
+// ── INSIDE BACK COVER ─────────────────────────────────────────────────────────
 
-#e("div", class: "footer")[
-  VOID DISPATCH — FREE — PRINT IT — LEAVE IT SOMEWHERE\
-  ISSUE 04: WINTER 2025
+#e("div", class: "inside-back-cover")[
+  #img-el("image2.jpg", style: "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;")
+  #e("div", class: "inside-back-cover-text")[
+    *Next issue:* infrastructure that fights back.
+    Submissions open. 800 words or fewer.
+    No pitches. Send it done.
+
+    void-dispatch #sym.at proton.me
+  ]
+  #e("div", class: "inside-back-cover-label")[INSIDE BACK COVER]
+]
+
+// ── BACK COVER ────────────────────────────────────────────────────────────────
+
+#e("div", class: "back-cover")[
+  #img-el("image3.jpg", style: "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;")
+  #e("div", class: "cover-overlay")[
+    #e("div", class: "back-cover-tagline")[FREE — PRINT IT — LEAVE IT SOMEWHERE]
+    #e("div", class: "cover-title")[VOID DISPATCH]
+    #e("div", class: "cover-issue-line")[NO. 03 · AUTUMN 2025]
+  ]
 ]
