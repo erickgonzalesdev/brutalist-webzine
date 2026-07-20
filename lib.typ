@@ -614,7 +614,16 @@
     opt.placement.spacing(below: 0pt)
     if boundary != none {
       placed(align, boundary: boundary, box(width: width, img-block))
-      container(width: 100%)
+      container(
+        width: 100% - width - gap,
+        align: if align.x == left { right } else { left },
+        margin: 0pt,
+      )
+      container(
+        width: width,
+        align: if align.x == left { left } else { right },
+        margin: 0pt,
+      )
     } else {
       placed(align, box(width: width, img-block))
       container(
