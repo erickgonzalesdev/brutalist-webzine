@@ -53,4 +53,11 @@ if __name__ == "__main__":
     ]
     for src, dst, name in images:
         remove_bg(src, dst)
+        # Crop to content bounding box so contour grid aligns with figure exactly
+        img = Image.open(dst).convert("RGBA")
+        bbox = img.getbbox()
+        if bbox:
+            img = img.crop(bbox)
+            img.save(dst)
+            print(f"Cropped {dst} to {img.size}")
         gen_contour(dst, name)
