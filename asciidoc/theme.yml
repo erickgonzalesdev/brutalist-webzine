@@ -1,0 +1,82 @@
+font:
+  catalog:
+    SpaceGrotesk:
+      normal: ../fonts/SpaceGrotesk-VariableFont_wght.ttf
+      bold: ../fonts/SpaceGrotesk-VariableFont_wght.ttf
+      italic: ../fonts/SpaceGrotesk-VariableFont_wght.ttf
+      bold_italic: ../fonts/SpaceGrotesk-VariableFont_wght.ttf
+    Mono:
+      normal: GEM_FONTS_DIR/mplus1mn-regular-subset.ttf
+      bold: GEM_FONTS_DIR/mplus1mn-bold-subset.ttf
+      italic: GEM_FONTS_DIR/mplus1mn-italic-subset.ttf
+      bold_italic: GEM_FONTS_DIR/mplus1mn-bold_italic-subset.ttf
+
+page:
+  background_color: '000000'
+  margin: [0.9in, 0.9in, 0.9in, 0.9in]
+  size: LETTER
+
+base:
+  font_color: 'FFFFFF'
+  font_family: Mono
+  font_size: 10
+  line_height: 1.65
+
+heading:
+  font_family: SpaceGrotesk
+  font_color: 'FFFFFF'
+  font_style: normal
+  text_transform: uppercase
+
+heading_h1:
+  font_size: 32
+  font_weight: 700
+  margin_top: 12
+  margin_bottom: 6
+  border_bottom_width: 0.5
+  border_bottom_color: 'FFFFFF'
+  padding_bottom: 4
+
+heading_h2:
+  font_size: 18
+  font_weight: 300
+  margin_top: 12
+  margin_bottom: 4
+
+quote:
+  font_color: 'FFFFFF'
+  font_size: 16
+  font_style: normal
+  border_left_width: 2
+  border_left_color: 'FFFFFF'
+  padding: [4, 12]
+  cite_font_color: '888888'
+  cite_font_size: 8
+
+admonition:
+  border_width: 0
+  border_left_width: 3
+  border_left_color: 'FFFFFF'
+  padding: [6, 12]
+  label:
+    font_color: '666666'
+    font_size: 7
+    font_family: Mono
+    text_transform: uppercase
+
+note:
+  background_color: 'FFFFFF'
+  font_color: '000000'
+  border_left_color: 'FFFFFF'
+  label:
+    font_color: '000000'
+
+image:
+  align: center
+
+toc:
+  font_color: 'FFFFFF'
+  font_family: Mono
+  font_size: 9
+  dot_leader_color: '444444'
+  line_height: 1.8
