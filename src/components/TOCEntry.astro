@@ -1,0 +1,13 @@
+---
+interface Props {
+  title: string;
+  num: number;
+  slug: string;
+}
+const { title, num, slug } = Astro.props;
+---
+<a class="toc-entry" href={`#${slug}`}>
+  <span class="toc-entry-num">{String(num).padStart(2, "0")}</span>
+  <span class="toc-entry-fill"></span>
+  <span class="toc-entry-title">{title}</span>
+</a>

@@ -1,0 +1,14 @@
+---
+interface Props {
+  img: string;
+  label?: string;
+}
+const { img, label = "inside back cover" } = Astro.props;
+---
+<div class="inside-back-cover">
+  <img src={img} alt="" />
+  <div class="inside-back-cover-text">
+    <slot />
+  </div>
+  <div class="inside-back-cover-label">{label}</div>
+</div>

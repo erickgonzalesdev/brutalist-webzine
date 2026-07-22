@@ -1,0 +1,112 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <script>
+      import { animate, inView, stagger } from "motion";
+
+      // ── COVER: slide up on load ──────────────────────────
+      const coverOverlay = document.querySelector(".page-cover .cover-overlay");
+      if (coverOverlay) {
+        animate(
+          coverOverlay,
+          { opacity: [0, 1], y: [32, 0] },
+          { duration: 1.1, easing: [0.16, 1, 0.3, 1] }
+        );
+      }
+
+      // ── ARTICLE PAGE CELLS: staggered scale-in on scroll ─
+      document.querySelectorAll(".article-page").forEach((page) => {
+        const cells = page.querySelectorAll(".ap-cell");
+        const overlay = page.querySelector(".ap-overlay");
+        inView(page, () => {
+          animate(
+            cells,
+            { opacity: [0, 1], scale: [1.06, 1] },
+            { duration: 0.9, delay: stagger(0.08), easing: [0.16, 1, 0.3, 1] }
+          );
+          if (overlay) {
+            animate(
+              overlay,
+              { opacity: [0, 1], y: [20, 0] },
+              { duration: 0.8, delay: 0.3, easing: [0.16, 1, 0.3, 1] }
+            );
+          }
+        }, { amount: 0.15 });
+      });
+
+      // ── ARTICLE HEADERS: slide up ────────────────────────
+      document.querySelectorAll("article").forEach((art) => {
+        const heading = art.querySelector("h1");
+        const label = art.querySelector(".article-label");
+        const rule = art.querySelector(".article-rule");
+        const byline = art.querySelector(".byline");
+        const els = [label, heading, rule, byline].filter(Boolean);
+        inView(art, () => {
+          animate(
+            els,
+            { opacity: [0, 1], y: [16, 0] },
+            { duration: 0.7, delay: stagger(0.07), easing: [0.16, 1, 0.3, 1] }
+          );
+        }, { amount: 0.1 });
+      });
+
+      // ── ARTICLE IMAGE: fade in ───────────────────────────
+      document.querySelectorAll(".article-image").forEach((el) => {
+        inView(el, () => {
+          animate(el, { opacity: [0, 1] }, { duration: 0.9, easing: "ease-out" });
+        }, { amount: 0.2 });
+      });
+
+      // ── BODY PARAGRAPHS: fade up in batches ─────────────
+      document.querySelectorAll("article p").forEach((p) => {
+        inView(p, () => {
+          animate(p, { opacity: [0, 1], y: [10, 0] }, { duration: 0.55, easing: [0.16, 1, 0.3, 1] });
+        }, { amount: 0.5 });
+      });
+
+      // ── PULL-QUOTES: slide in from left ─────────────────
+      document.querySelectorAll(".pull-quote").forEach((el) => {
+        inView(el, () => {
+          animate(el, { opacity: [0, 1], x: [-24, 0] }, { duration: 0.7, easing: [0.16, 1, 0.3, 1] });
+        }, { amount: 0.3 });
+      });
+
+      // ── CALLOUTS: slide in from left ────────────────────
+      document.querySelectorAll(".callout").forEach((el) => {
+        inView(el, () => {
+          animate(el, { opacity: [0, 1], x: [-20, 0] }, { duration: 0.65, easing: [0.16, 1, 0.3, 1] });
+        }, { amount: 0.4 });
+      });
+
+      // ── MANIFESTOS: scale up ─────────────────────────────
+      document.querySelectorAll(".manifesto").forEach((el) => {
+        inView(el, () => {
+          animate(el, { opacity: [0, 1], scale: [0.97, 1] }, { duration: 0.75, easing: [0.16, 1, 0.3, 1] });
+        }, { amount: 0.4 });
+      });
+
+      // ── ZRULES: wipe in ──────────────────────────────────
+      document.querySelectorAll(".zrule").forEach((el) => {
+        inView(el, () => {
+          animate(el, { opacity: [0, 1], scaleX: [0.4, 1] }, { duration: 0.6, easing: [0.16, 1, 0.3, 1] });
+        }, { amount: 1 });
+      });
+    </script>
+  </body>
+</html>

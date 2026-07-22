@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  author: string;
+  issue: string;
+  date: string;
+  img: string;
+}
+const { title, author, issue, date, img } = Astro.props;
+---
+<div class="article-cover">
+  <img src={img} alt="" />
+  <div class="article-cover-overlay">
+    <div class="article-cover-meta">Issue {issue} — {date}</div>
+    <div class="article-cover-title">{title}</div>
+    <div class="article-cover-author">{author}</div>
+  </div>
+</div>

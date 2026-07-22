@@ -1,0 +1,117 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ArticlePage from "../../components/ArticlePage.astro";
+import ArticleImage from "../../components/ArticleImage.astro";
+import Byline from "../../components/Byline.astro";
+import PullQuote from "../../components/PullQuote.astro";
+import Callout from "../../components/Callout.astro";
+import Manifesto from "../../components/Manifesto.astro";
+import ZRule from "../../components/ZRule.astro";
+import { getCollection, render } from "astro:content";
+import { articleLayouts } from "../../data/articleLayouts";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+const allArticles = (await getCollection("articles")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const currentIndex = allArticles.findIndex((a) => a.id === article.id);
+const prev = allArticles[currentIndex - 1];
+const next = allArticles[currentIndex + 1];
+---
+
+<Layout title={`${article.data.title} — VOID DISPATCH #${article.data.issue}`}>
+{(() => {
+    const ldata = articleLayouts[article.id];
+    return (
+      <ArticlePage
+        title={article.data.title}
+        author={article.data.author}
+        issue={article.data.issue}
+        date={article.data.date}
+        images={ldata?.images ?? [article.data.heroImage]}
+        layout={ldata?.layout ?? "monocle"}
+        titlePos={ldata?.titlePos}
+      />
+    );
+  })()}
+
+  <div class="content">
+    <article>
+      <div class="article-label">article</div>
+      <h1>{article.data.title}</h1>
+      <div class="article-rule">
+        <div class="article-rule-a"></div>
+        <div class="article-rule-b"></div>
+      </div>
+      <Byline name={article.data.author.toUpperCase()} />
+      <ArticleImage
+        src={article.data.articleImage}
+        caption={article.data.articleImageCaption}
+      />
+      <Content />
+    </article>
+
+    <ZRule />
+
+    <nav class="article-nav">
+      {prev && (
+        <a href={`/articles/${prev.id}`} class="article-nav-prev">
+          ← {prev.data.title}
+        </a>
+      )}
+      <a href="/" class="article-nav-home">↑ Contents</a>
+      {next && (
+        <a href={`/articles/${next.id}`} class="article-nav-next">
+          {next.data.title} →
+        </a>
+      )}
+    </nav>
+  </div>
+</Layout>
+
+<style>
+  .article-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0 3rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    gap: 1rem;
+  }
+
+  .article-nav a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .article-nav a:hover {
+    color: #fff;
+  }
+
+  .article-nav-home {
+    flex-shrink: 0;
+  }
+
+  .article-nav-prev {
+    text-align: left;
+    flex: 1;
+  }
+
+  .article-nav-next {
+    text-align: right;
+    flex: 1;
+  }
+</style>

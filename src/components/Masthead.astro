@@ -1,0 +1,17 @@
+---
+interface Props {
+  title: string;
+  issue: string;
+  date: string;
+}
+const { title, issue, date } = Astro.props;
+---
+<div class="masthead">
+  <div class="masthead-issue">Issue {issue} — {date}</div>
+  <div class="masthead-title">{title}</div>
+  <div class="masthead-rule">
+    <div class="masthead-rule-thick"></div>
+    <div class="masthead-rule-dot"></div>
+    <div class="masthead-rule-thin"></div>
+  </div>
+</div>

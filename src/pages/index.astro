@@ -1,0 +1,124 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Cover from "../components/Cover.astro";
+import InsideCover from "../components/InsideCover.astro";
+import Masthead from "../components/Masthead.astro";
+import TOCEntry from "../components/TOCEntry.astro";
+import ZRule from "../components/ZRule.astro";
+import BackCover from "../components/BackCover.astro";
+import InsideBackCover from "../components/InsideBackCover.astro";
+import ArticlePage from "../components/ArticlePage.astro";
+import ArticleImage from "../components/ArticleImage.astro";
+import Byline from "../components/Byline.astro";
+import { getCollection, render } from "astro:content";
+import { articleLayouts } from "../data/articleLayouts";
+
+const articles = (await getCollection("articles")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const rendered = await Promise.all(
+  articles.map(async (a) => ({ article: a, Content: (await render(a)).Content }))
+);
+---
+
+<Layout title="VOID DISPATCH #03">
+  <Cover
+    title="VOID DISPATCH"
+    issue="03"
+    date="AUTUMN 2025"
+    img="/images/image1.jpg"
+  />
+
+  <InsideCover img="/images/image2.jpg">
+    <p><strong>Void Dispatch</strong> is a zine about cities, infrastructure, and the systems we live inside. Free to read. Free to print. Free to leave somewhere.</p>
+    <p>Contributing writers: Dana Ferris, M. Okafor, T. Nakamura, S. Reyes, P. Voss.</p>
+    <p>Printed on whatever you have.<br />void-dispatch @ proton.me</p>
+  </InsideCover>
+
+  <div class="content">
+    <Masthead title="VOID DISPATCH" issue="03" date="AUTUMN 2025" />
+
+    <nav class="toc">
+      {articles.map((article) => (
+        <TOCEntry
+          title={article.data.title}
+          num={article.data.order}
+          slug={article.id}
+        />
+      ))}
+    </nav>
+
+    <ZRule />
+  </div>
+
+  {rendered.map(({ article, Content }) => {
+    const ldata = articleLayouts[article.id];
+    return (
+      <>
+        <ArticlePage
+          title={article.data.title}
+          author={article.data.author}
+          issue={article.data.issue}
+          date={article.data.date}
+          images={ldata?.images ?? [article.data.heroImage]}
+          layout={ldata?.layout ?? "monocle"}
+          titlePos={ldata?.titlePos}
+        />
+        <div class="content" id={article.id}>
+          <article>
+            <div class="article-label">article</div>
+            <h1>{article.data.title}</h1>
+            <div class="article-rule">
+              <div class="article-rule-a"></div>
+              <div class="article-rule-b"></div>
+            </div>
+            <Byline name={article.data.author.toUpperCase()} />
+            <ArticleImage
+              src={article.data.articleImage}
+              caption={article.data.articleImageCaption}
+            />
+            <Content />
+          </article>
+          <ZRule />
+        </div>
+      </>
+    );
+  })}
+
+  <div class="content">
+    <ZRule label="letters" />
+    <div class="letters">
+      <div class="callout">
+        <div class="callout-title">on the bus piece (issue 02)</div>
+        <p>You said the bus is slow because of choices, not physics. I've been thinking about this for three weeks. You're right and I hate it. — <strong>J.W., Chicago</strong></p>
+      </div>
+      <div class="callout">
+        <div class="callout-title">correction</div>
+        <p>The Houston light rail does not go to the airport. We stated that it did. It does not. We regret this. — <strong>the editors</strong></p>
+      </div>
+      <div class="callout">
+        <div class="callout-title">submissions</div>
+        <p>800 words or fewer. No pitches. Send it done. Plaintext. — <strong>void-dispatch @ proton.me</strong></p>
+      </div>
+    </div>
+    <ZRule label="end" />
+    <div class="footer">
+      VOID DISPATCH — FREE — PRINT IT — LEAVE IT SOMEWHERE<br />
+      ISSUE 04: WINTER 2025
+    </div>
+  </div>
+
+  <InsideBackCover img="/images/image2.jpg">
+    <p><strong>Next issue:</strong> infrastructure that fights back. Submissions open. 800 words or fewer. No pitches. Send it done.</p>
+    <p>void-dispatch @ proton.me</p>
+  </InsideBackCover>
+
+  <BackCover
+    title="VOID DISPATCH"
+    issue="03"
+    date="AUTUMN 2025"
+    tagline="free — print it — leave it somewhere"
+    img="/images/image3.jpg"
+  />
+</Layout>

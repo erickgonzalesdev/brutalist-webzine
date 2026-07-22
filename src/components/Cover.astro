@@ -1,0 +1,17 @@
+---
+interface Props {
+  title: string;
+  issue: string;
+  date: string;
+  img: string;
+}
+const { title, issue, date, img } = Astro.props;
+---
+<div class="page-cover">
+  <img src={img} alt="" />
+  <div class="cover-overlay">
+    <div class="cover-issue-line">Issue {issue} — {date}</div>
+    <div class="cover-title">{title}</div>
+    <div class="cover-rule"></div>
+  </div>
+</div>

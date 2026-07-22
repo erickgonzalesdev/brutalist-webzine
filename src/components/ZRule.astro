@@ -1,0 +1,12 @@
+---
+interface Props {
+  label?: string;
+}
+const { label } = Astro.props;
+---
+<div class="zrule">
+  <div class="zrule-thick"></div>
+  <div class="zrule-dot"></div>
+  {label && <span class="zrule-label">{label}</span>}
+  <div class="zrule-thin"></div>
+</div>
